@@ -160,6 +160,17 @@
         .dark .text-gray-400 {
             color: #6b7280;
         }
+        
+        /* --- NEWLY ADDED/CORRECTED STYLES FOR MODAL INPUT --- */
+        #job-title-input {
+            background-color: var(--bg-white);
+            color: var(--text-dark);
+            border-color: var(--border-color);
+            transition: color 0.3s ease, background-color 0.3s ease, border-color 0.3s ease;
+        }
+        .dark #job-title-input::placeholder {
+            color: var(--text-medium);
+        }
         /* --- END OF UPDATED SECTION --- */
 
 
@@ -389,7 +400,7 @@
             <!-- Additional Information Section -->
             <section id="additional-info-section">
                 <div class="section-title-container pb-2 mb-4">
-                       <div class="section-title-icon rounded-full w-9 h-9 flex items-center justify-center"><i class="fas fa-info-circle"></i></div>
+                        <div class="section-title-icon rounded-full w-9 h-9 flex items-center justify-center"><i class="fas fa-info-circle"></i></div>
                     <h2 class="text-2xl font-bold uppercase section-title">Additional Information</h2>
                 </div>
                  <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 mt-4">
@@ -434,7 +445,8 @@
                 <button id="close-modal-btn" class="text-gray-500 hover:text-gray-800 text-2xl">&times;</button>
             </div>
             <p class="text-gray-600 mb-4">Enter the target job title. The AI will rewrite the summary and highlight the most relevant experiences and skills.</p>
-            <input type="text" id="job-title-input" placeholder="e.g., Business Development Intern" class="w-full p-2 border border-gray-300 rounded-lg mb-4 focus:ring-2 focus:ring-[var(--gemini-grad-from)] focus:border-transparent dark:bg-gray-800 dark:border-gray-600 dark:text-white">
+            <!-- THIS IS THE CORRECTED LINE -->
+            <input type="text" id="job-title-input" placeholder="e.g., Business Development Intern" class="w-full p-2 border rounded-lg mb-4 focus:ring-2 focus:ring-[var(--gemini-grad-from)] focus:border-transparent">
             <button id="generate-btn" class="w-full gemini-btn text-white font-bold py-2 px-4 rounded-lg flex items-center justify-center">
                 <span id="generate-btn-text">Generate</span>
                 <svg id="loading-spinner" class="animate-spin h-5 w-5 text-white hidden" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24">
@@ -634,8 +646,8 @@
                     **Tone of Voice Instructions:** The user's core values are teamwork and authenticity. The generated text must reflect this. Use a humble yet confident, action-oriented, and team-focused tone ("we" for team achievements). Avoid buzzwords, exaggeration, or language that sounds like a "lone star". The summary should be grounded in the provided facts.
 
                     1.  **Rewrite the Summary:** Create a professional summary (3-4 sentences) that highlights the most relevant aspects for this specific role, while adhering to the specified tone.
-                    2.  **Select Relevant Experiences:** From the list of experiences below, identify the IDs of the bullet points that are most relevant to the job title. Return only the IDs.
-                    3.  **Select Relevant Skills:** From the list of skills below, identify the IDs of the skills that are most relevant. Return only the IDs.
+                    2.  **Select Relevant Experiences:** From a list of experiences below, identify the IDs of the bullet points that are most relevant to the job title. Return only the IDs.
+                    3.  **Select Relevant Skills:** From a list of skills below, identify the IDs of the skills that are most relevant. Return only the IDs.
                     
                     **Experiences:**
                     ${experienceForPrompt}
