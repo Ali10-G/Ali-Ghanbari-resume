@@ -14,19 +14,43 @@
             --divar-red: #A62626;
             --text-dark: #1f2937;
             --text-medium: #4b5563;
+            --text-light: #f9fafb;
             --bg-light: #f9fafb;
             --bg-soft-gray: #f3f4f6;
+            --bg-white: #ffffff;
+            --border-color: #e5e7eb;
+            --bg-icon: #fee2e2;
             /* Gemini Gradient */
             --gemini-grad-from: #4285F4;
             --gemini-grad-via: #9B59B6;
             --gemini-grad-to: #D94A8C;
+            --bg-pattern-light: url("data:image/svg+xml,%3Csvg width='20' height='20' viewBox='0 0 20 20' xmlns='http://www.w3.org/2000/svg'%3E%3Cg fill='%23d1d5db' fill-opacity='0.4' fill-rule='evenodd'%3E%3Ccircle cx='3' cy='3' r='3'/%3E%3Ccircle cx='13' cy='13' r='3'/%3E%3C/g%3E%3C/svg%3E");
+            --bg-pattern-dark: url("data:image/svg+xml,%3Csvg width='20' height='20' viewBox='0 0 20 20' xmlns='http://www.w3.org/2000/svg'%3E%3Cg fill='%234b5563' fill-opacity='0.4' fill-rule='evenodd'%3E%3Ccircle cx='3' cy='3' r='3'/%3E%3Ccircle cx='13' cy='13' r='3'/%3E%3C/g%3E%3C/svg%3E");
+        }
+
+        /* Dark Mode Variables */
+        .dark {
+            --text-dark: #f9fafb;
+            --text-medium: #d1d5db;
+            --text-light: #1f2937;
+            --bg-light: #1f2937;
+            --bg-soft-gray: #111827;
+            --bg-white: #1f2937;
+            --border-color: #374151;
+            --bg-icon: #374151;
         }
 
         body {
             font-family: 'Inter', sans-serif;
             background-color: var(--bg-soft-gray);
-            background-image: url("data:image/svg+xml,%3Csvg width='20' height='20' viewBox='0 0 20 20' xmlns='http://www.w3.org/2000/svg'%3E%3Cg fill='%23d1d5db' fill-opacity='0.4' fill-rule='evenodd'%3E%3Ccircle cx='3' cy='3' r='3'/%3E%3Ccircle cx='13' cy='13' r='3'/%3E%3C/g%3E%3C/svg%3E");
+            background-image: var(--bg-pattern-light);
+            transition: background-color 0.3s ease, color 0.3s ease;
         }
+
+        .dark body {
+            background-image: var(--bg-pattern-dark);
+        }
+
         .persian-header {
             font-family: 'Vazirmatn', sans-serif;
         }
@@ -34,21 +58,21 @@
             display: flex;
             align-items: center;
             gap: 12px;
-            border-bottom: 2px solid #e5e7eb;
+            border-bottom: 2px solid var(--border-color);
+            transition: border-color 0.3s ease;
         }
         .section-title-icon {
             color: var(--divar-red);
-            background-color: #fee2e2;
+            background-color: var(--bg-icon);
             border-radius: 9999px;
             width: 36px;
             height: 36px;
             display: flex;
             align-items: center;
             justify-content: center;
+            transition: background-color 0.3s ease;
         }
-        .section-title {
-            color: var(--text-dark);
-        }
+        
         .text-justify {
             text-align: justify;
         }
@@ -56,8 +80,8 @@
             text-align: left;
         }
         .info-card {
-            background-color: #f9fafb;
-            border: 1px solid #e5e7eb;
+            background-color: var(--bg-light);
+            border: 1px solid var(--border-color);
             border-left: 4px solid var(--divar-red);
             transition: all 0.3s ease;
         }
@@ -109,6 +133,64 @@
             opacity: 1;
         }
 
+        /* --- UPDATED SECTION FOR THEME COLORS --- */
+        /* Add transitions to all elements that will change color */
+        .print-container, .bg-white, #ai-modal > div,
+        h1, h3, .text-gray-800, .section-title,
+        p, li, span, a, .text-gray-700, .text-gray-600, .text-gray-500,
+        .text-gray-400, .persian-header {
+            transition: color 0.3s ease, background-color 0.3s ease;
+        }
+
+        /* Dark Mode Overrides */
+        .dark .print-container, .dark .bg-white, .dark #ai-modal > div {
+            background-color: var(--bg-white);
+        }
+        .dark h1, .dark h3, .dark .text-gray-800, .dark .section-title, .dark h4 {
+            color: var(--text-dark);
+        }
+        .dark p, .dark li, .dark span, .dark a, 
+        .dark .text-gray-700, .dark .text-gray-600, .dark .text-gray-500,
+        .dark .persian-header {
+            color: var(--text-medium);
+        }
+        .dark a:hover {
+            color: var(--divar-red);
+        }
+        .dark .text-gray-400 {
+            color: #6b7280;
+        }
+        /* --- END OF UPDATED SECTION --- */
+
+
+        /* Theme Toggle Button */
+        #theme-toggle {
+            position: absolute;
+            top: 1.5rem;
+            right: 1.5rem;
+            background-color: var(--bg-light);
+            border: 1px solid var(--border-color);
+            color: var(--text-medium);
+            width: 40px;
+            height: 40px;
+            border-radius: 9999px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            box-shadow: 0 1px 3px 0 rgb(0 0 0 / 0.1), 0 1px 2px -1px rgb(0 0 0 / 0.1);
+        }
+        #theme-toggle:hover {
+            color: var(--text-dark);
+            box-shadow: 0 4px 6px -1px rgb(0 0 0 / 0.1), 0 2px 4px -2px rgb(0 0 0 / 0.1);
+        }
+        #theme-toggle .fa-sun { display: none; }
+        #theme-toggle .fa-moon { display: block; }
+        .dark #theme-toggle .fa-sun { display: block; }
+        .dark #theme-toggle .fa-moon { display: none; }
+
+
         @media screen {
             .only-print { display: none; }
         }
@@ -131,12 +213,18 @@
     </style>
 </head>
 <body class="p-4 md:p-8">
-    <div class="max-w-4xl mx-auto">
+    <div class="max-w-4xl mx-auto relative">
+        <!-- Theme Toggle Button Added Here -->
+        <button id="theme-toggle" class="no-print" aria-label="Toggle dark mode">
+            <i class="fas fa-sun"></i>
+            <i class="fas fa-moon"></i>
+        </button>
+
         <p class="persian-header text-center text-gray-500 mb-4 text-lg no-print">بسم هو</p>
         <div class="bg-white shadow-2xl rounded-lg p-8 md:p-12 print-container">
 
             <!-- Header Section -->
-            <header class="flex flex-col md:flex-row items-center justify-between mb-12 pb-8 border-b-2 border-gray-100">
+            <header class="flex flex-col md:flex-row items-center justify-between mb-12 pb-8 border-b-2 border-gray-100 dark:border-[var(--border-color)]">
                 <div class="text-center md:text-left">
                     <h1 class="text-4xl md:text-5xl font-bold text-gray-800 tracking-tight">Ali Ghanbari</h1>
                     <div class="mt-4 grid grid-cols-1 md:grid-cols-2 gap-x-6 gap-y-2 text-gray-600 text-md">
@@ -305,7 +393,7 @@
                 <button id="close-modal-btn" class="text-gray-500 hover:text-gray-800 text-2xl">&times;</button>
             </div>
             <p class="text-gray-600 mb-4">Enter the target job title. The AI will rewrite the summary and highlight the most relevant experiences and skills.</p>
-            <input type="text" id="job-title-input" placeholder="e.g., Business Development Intern" class="w-full p-2 border border-gray-300 rounded-lg mb-4 focus:ring-2 focus:ring-[var(--gemini-grad-from)] focus:border-transparent">
+            <input type="text" id="job-title-input" placeholder="e.g., Business Development Intern" class="w-full p-2 border border-gray-300 rounded-lg mb-4 focus:ring-2 focus:ring-[var(--gemini-grad-from)] focus:border-transparent dark:bg-gray-800 dark:border-gray-600 dark:text-white">
             <button id="generate-btn" class="w-full gemini-btn text-white font-bold py-2 px-4 rounded-lg flex items-center justify-center">
                 <span id="generate-btn-text">Generate</span>
                 <svg id="loading-spinner" class="animate-spin h-5 w-5 text-white hidden" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24">
@@ -318,6 +406,39 @@
     </div>
 
     <script>
+        // --- Theme Toggle Logic Added Here ---
+        const themeToggleBtn = document.getElementById('theme-toggle');
+        const htmlEl = document.documentElement;
+
+        // Function to set the theme
+        const setTheme = (theme) => {
+            if (theme === 'dark') {
+                htmlEl.classList.add('dark');
+                localStorage.setItem('theme', 'dark');
+            } else {
+                htmlEl.classList.remove('dark');
+                localStorage.setItem('theme', 'light');
+            }
+        };
+
+        // Event listener for the toggle button
+        themeToggleBtn.addEventListener('click', () => {
+            const currentTheme = localStorage.getItem('theme') || 'light';
+            setTheme(currentTheme === 'light' ? 'dark' : 'light');
+        });
+
+        // Apply theme on initial load
+        const savedTheme = localStorage.getItem('theme');
+        // Check for saved theme in localStorage or user's OS preference
+        if (savedTheme) {
+            setTheme(savedTheme);
+        } else if (window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches) {
+            setTheme('dark');
+        } else {
+            setTheme('light');
+        }
+
+
         // --- Configuration ---
         const LIVE_RESUME_URL = "https://ali-ghanbari-resume.vercel.app/"; 
         document.getElementById('ai-summary-link').href = `${LIVE_RESUME_URL}?tailor=true`;
@@ -542,4 +663,3 @@
     </script>
 </body>
 </html>
-
