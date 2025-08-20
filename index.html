@@ -198,15 +198,16 @@
         /* --- UPDATED PRINT STYLES --- */
         @media print {
             body {
-                background-image: none !important;
-                background-color: white !important;
+                background: none !important;
+                color: #000 !important;
+                font-size: 10pt;
                 -webkit-print-color-adjust: exact;
                 print-color-adjust: exact;
-                font-size: 10pt;
             }
 
             .max-w-4xl {
                 max-width: 100% !important;
+                padding: 0 !important;
                 box-shadow: none !important;
             }
 
@@ -215,30 +216,38 @@
                 box-shadow: none !important;
                 border: none !important;
             }
+            
+            header {
+                display: flex !important;
+                flex-direction: row !important;
+                justify-content: space-between !important;
+                align-items: center !important;
+            }
+            
+            header img {
+                margin-top: 0 !important;
+            }
 
             .info-card, .section-title-icon, .bg-white {
                 box-shadow: none !important;
-                border: 1px solid #e5e7eb;
+                border: 1px solid #e5e7eb !important;
                 -webkit-print-color-adjust: exact;
                 print-color-adjust: exact;
             }
 
-            /* Force grid layouts into a single column for better print flow */
             #skills-section .grid, #additional-info-section .grid {
                 display: block !important;
             }
 
             #skills-section .grid > div, #additional-info-section .grid > div {
-                page-break-inside: avoid;
                 margin-bottom: 1rem;
             }
             
             .no-print { display: none !important; }
             .only-print { display: inline-flex !important; }
             
-            /* Prevent page breaks inside sections where possible */
-            section, .info-card {
-                page-break-inside: avoid;
+            section {
+                break-inside: avoid;
             }
         }
     </style>
@@ -458,15 +467,13 @@
             setTheme(currentTheme === 'light' ? 'dark' : 'light');
         });
 
-        // Apply theme on initial load
+        // --- UPDATED THEME LOGIC ---
+        // Apply theme on initial load. Default to light mode.
         const savedTheme = localStorage.getItem('theme');
-        // Check for saved theme in localStorage or user's OS preference
         if (savedTheme) {
             setTheme(savedTheme);
-        } else if (window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches) {
-            setTheme('dark');
         } else {
-            setTheme('light');
+            setTheme('light'); // Default to light mode on first visit
         }
 
 
