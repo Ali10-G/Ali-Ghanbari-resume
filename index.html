@@ -246,7 +246,8 @@
             .no-print { display: none !important; }
             .only-print { display: inline-flex !important; }
             
-            section {
+            /* More granular page break control */
+            #experience-section > div, #education-section > div, #skills-section .grid > div, #additional-info-section .grid > div {
                 break-inside: avoid;
             }
         }
