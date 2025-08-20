@@ -194,21 +194,52 @@
         @media screen {
             .only-print { display: none; }
         }
+        
+        /* --- UPDATED PRINT STYLES --- */
         @media print {
             body {
                 background-image: none !important;
                 background-color: white !important;
                 -webkit-print-color-adjust: exact;
                 print-color-adjust: exact;
+                font-size: 10pt;
             }
-            .print-container, .info-card, .section-title-icon, .bg-white, .border-\[\--divar-red\] {
+
+            .max-w-4xl {
+                max-width: 100% !important;
+                box-shadow: none !important;
+            }
+
+            .print-container {
+                padding: 0 !important;
+                box-shadow: none !important;
+                border: none !important;
+            }
+
+            .info-card, .section-title-icon, .bg-white {
                 box-shadow: none !important;
                 border: 1px solid #e5e7eb;
                 -webkit-print-color-adjust: exact;
                 print-color-adjust: exact;
             }
+
+            /* Force grid layouts into a single column for better print flow */
+            #skills-section .grid, #additional-info-section .grid {
+                display: block !important;
+            }
+
+            #skills-section .grid > div, #additional-info-section .grid > div {
+                page-break-inside: avoid;
+                margin-bottom: 1rem;
+            }
+            
             .no-print { display: none !important; }
             .only-print { display: inline-flex !important; }
+            
+            /* Prevent page breaks inside sections where possible */
+            section, .info-card {
+                page-break-inside: avoid;
+            }
         }
     </style>
 </head>
