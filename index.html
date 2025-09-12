@@ -661,7 +661,7 @@
                 const tailoredContent = await callGeminiApi(prompt);
                 
                 // Update Summary - FIX: Update textContent to preserve classes
-                document.getElementById('summary-text').textContent = tailoredContent.summary;
+                document.getElementById('summary-text').innerHTML = tailoredContent.summary;
 
                 // Update Experience
                 const allExpItems = document.querySelectorAll('#experience-section ul li');
