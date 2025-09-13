@@ -210,10 +210,11 @@
         @media print {
             body {
                 background: none !important;
-                color: #000 !important;
+                /* color: #000 !important; */ /* Per user feedback, keep colors for PDF */
                 font-size: 10pt;
                 -webkit-print-color-adjust: exact;
                 print-color-adjust: exact;
+                margin: 1.5cm; /* Add professional margins */
             }
 
             .max-w-4xl {
@@ -223,7 +224,7 @@
             }
 
             .print-container {
-                padding: 0 !important;
+                /* padding: 0 !important; */ /* Let original padding apply */
                 box-shadow: none !important;
                 border: none !important;
             }
@@ -239,7 +240,11 @@
                 margin-top: 0 !important;
             }
 
-            .info-card, .section-title-icon, .bg-white {
+            .info-card, .section-title-icon {
+                box-shadow: none !important; /* Remove shadow for print, keep original borders */
+            }
+
+            .bg-white {
                 box-shadow: none !important;
                 border: 1px solid #e5e7eb !important;
                 -webkit-print-color-adjust: exact;
@@ -247,7 +252,8 @@
             }
 
             #skills-section .grid, #additional-info-section .grid {
-                display: block !important;
+                /* display: block !important; */ /* Re-enable grid for print */
+                grid-template-columns: repeat(2, minmax(0, 1fr)); /* Use a 2-column layout */
             }
 
             #skills-section .grid > div, #additional-info-section .grid > div {
@@ -303,7 +309,7 @@
                         <button id="ai-summary-btn" class="no-print gemini-btn text-white font-bold py-2 px-3 rounded-lg flex items-center">
                             <i class="fas fa-wand-magic-sparkles mr-2"></i> Tailor Resume with AI
                         </button>
-                         <a id="ai-summary-link" href="#" target="_blank" class="only-print bg-blue-500 hover:bg-blue-600 text-white font-bold py-2 px-3 rounded-lg items-center">
+                         <a id="ai-summary-link" href="#" target="_blank" class="only-print gemini-btn text-white font-bold py-2 px-3 rounded-lg flex items-center">
                             <i class="fas fa-external-link-alt mr-2"></i> View Interactive Version
                         </a>
                     </div>
