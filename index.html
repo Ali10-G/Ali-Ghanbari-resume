@@ -52,6 +52,7 @@
     body[dir="rtl"] .resume-header .justify-center{justify-content:center!important;}
     body[dir="rtl"] .resume-header .justify-start, body[dir="rtl"] .resume-header .md\:justify-start{justify-content:flex-start!important;}
     body[dir="rtl"] .resume-header .justify-end, body[dir="rtl"] .resume-header .md\:justify-end{justify-content:flex-end!important;}
+    body[dir="rtl"] [data-i18n="header.name"]{text-align:right!important;display:block;}
 
     .contact-item{gap:.5rem;}
     .contact-icon{font-size:.875rem;}
@@ -118,8 +119,6 @@
       box-shadow:0 1px 3px 0 rgb(0 0 0 /.1),0 1px 2px -1px rgb(0 0 0 /.1);
     }
     #language-toggle:hover{color:var(--text-dark);box-shadow:0 4px 6px -1px rgb(0 0 0 /.1),0 2px 4px -2px rgb(0 0 0 /.1);}
-    body[dir="rtl"] #language-toggle{right:auto;left:4.5rem;}
-    body[dir="rtl"] #theme-toggle{right:auto;left:1.5rem;}
     .dark #language-toggle{background-color:var(--bg-light);color:var(--text-medium);}
 
     .only-print{display:none!important;}
@@ -152,7 +151,7 @@
       <span data-i18n="languageToggle.label">فارسی</span>
     </button>
 
-    <p class="persian-header text-center text-gray-500 mb-4 text-lg no-print" data-i18n="header.invocation">Bism Hu</p>
+    <p class="persian-header text-center text-gray-500 mb-4 text-lg no-print" data-i18n="header.invocation">بسم هو</p>
 
     <div id="resume-container" class="bg-white shadow-2xl rounded-lg p-8 md:p-12 print-container">
       <!-- Header -->
@@ -383,7 +382,7 @@
       en: {
         'languageToggle.label':'فارسی',
         'languageToggle.aria':'Switch resume to Persian',
-        'header.invocation':'Bism Hu',
+        'header.invocation':'بسم هو',
         'header.name':'Ali Ghanbari',
         'header.location':'Tehran, Iran',
         'header.phone':'+98 939 786 0366',
@@ -394,7 +393,7 @@
         'summary.aiButton':'Tailor Resume with AI',
         'summary.printLink':'View Interactive Version',
         'summary.resetButton':'Reset',
-        'summary.body':"As Executive Director, I took on the responsibility of reviving a student publication in crisis. To achieve this, we formed a 20-person team, rebuilt our culture, and delivered new content formats that boosted reach. I now mentor the next generation of volunteers, continue to grow my analytical and digital marketing skills, and bring a calm, team-first energy to every environment.",
+        'summary.body':'As Executive Director, I took on the responsibility of reviving a student publication in crisis. To achieve this, we formed a 20-person team after conversations with over 100 students. Through teamwork, we shifted the publication\'s strategy from print to audio, launched the university\'s first podcast, and by organizing multiple events, transformed its identity into a media platform focused on student growth. Concurrently, I taught myself and implemented analytical tools at a fintech startup and participated in business negotiations. I am seeking an opportunity to apply this action-oriented spirit and teamwork experience to solve real-world business challenges and contribute to product growth.',
         'experience.title':'Experience',
         'experience.mentor.title':'Team Mentor',
         'experience.mentor.subtitle':'New Samaneh, IUST (Student Organization) | Sep 2023 – Present',
@@ -462,14 +461,14 @@
         'summary.aiButton':'شخصی‌سازی رزومه با هوش مصنوعی',
         'summary.printLink':'مشاهده نسخه تعاملی',
         'summary.resetButton':'بازنشانی',
-        'summary.body':'به‌عنوان مدیر اجرایی، مسئولیت احیای یک نشریه دانشجویی بحرانی را پذیرفتم؛ تیمی ۲۰ نفره ساختیم، فرهنگ مشترکمان را بازسازی کردیم و فرمت‌های محتوایی تازه‌ای ارائه دادیم که دسترسی را افزایش داد. حالا نسل بعدی داوطلبان را منتور می‌کنم، مهارت‌های تحلیلی و بازاریابی دیجیتال خود را گسترش می‌دهم و در هر محیطی انرژی آرام و تیم‌محور به همراه می‌آورم.',
+        'summary.body':'به‌عنوان مدیر مسئول سامانه‌نو، وقتی نشریه دانشجویی با بحران روبه‌رو شد مسئولیتش را پذیرفتم. بعد از گفتگو با بیش از صد دانشجو، تیمی ۲۰ نفره کنار هم گذاشتیم. با کار گروهی مسیر نشریه را از چاپی به صوتی تغییر دادیم، اولین پادکست دانشگاه را راه انداختیم و با برگزاری چند رویداد، هویت نشریه را به یک پلتفرم رشد برای دانشجوها تبدیل کردیم. هم‌زمان در یک استارتاپ فین‌تک، ابزارهای تحلیلی را خودم یاد گرفتم و در مذاکره‌های تجاری شرکت کردم. حالا دنبال فرصتی هستم تا همین روحیه عمل‌گرا و تجربه کار تیمی را برای حل چالش‌های واقعی کسب‌وکار و رشد محصول به کار بگیرم.',
         'experience.title':'تجربه‌ها',
         'experience.mentor.title':'منتور تیم',
-        'experience.mentor.subtitle':'نو سامانه، دانشگاه علم و صنعت ایران (تشکل دانشجویی) | سپتامبر ۲۰۲۳ – اکنون',
+        'experience.mentor.subtitle':'سامانه‌نو، دانشگاه علم و صنعت ایران (تشکل دانشجویی) | سپتامبر ۲۰۲۳ – اکنون',
         'experience.mentor.items.0':'اعضای تیم را برای پیوستن به تیم آینده آماده کردم و پس از پایان مسئولیت، منتورینگ غیررسمی را ادامه دادم.',
         'experience.mentor.items.1':'هنوز هم در رویدادهایی مانند «اکسیر جاب اکسپو» و «از کنکور تا کار» (با مهمانانی مثل امین آرامش و محمدهادی شیری) همراه تیم هستم.',
-        'experience.director.title':'مدیر اجرایی',
-        'experience.director.subtitle':'نو سامانه، دانشگاه علم و صنعت ایران (تشکل دانشجویی) | مه ۲۰۲۲ – سپتامبر ۲۰۲۳',
+        'experience.director.title':'مدیر مسئول',
+        'experience.director.subtitle':'سامانه‌نو، دانشگاه علم و صنعت ایران (تشکل دانشجویی) | مه ۲۰۲۲ – سپتامبر ۲۰۲۳',
         'experience.director.items.0':'نشریه دانشجویی را از صفر دوباره ساختیم و آن را به جامعه‌ای فعال با چندین دپارتمان و بیش از ۲۰ عضو تبدیل کردیم.',
         'experience.director.items.1':'پادکست «نوپا» را راه‌اندازی کردم؛ بیش از ۲۲ قسمت و ۴۰۰۰ بار شنیده شد و رویدادهایی مثل «پل به آینده» را برگزار کردیم.',
         'experience.director.items.2':'با تپسل همکاری کردیم تا دسترسی رایگان آموزشی بگیریم و مدیر بازاریابی‌شان را به پنل دانشگاهی دعوت کردیم.',
