@@ -108,6 +108,40 @@
             padding-right: 0.5rem !important;
         }
 
+        /* Keep header layout LTR while still supporting Persian copy */
+        body[dir="rtl"] .resume-header .text-left,
+        body[dir="rtl"] .resume-header .md\:text-left {
+            text-align: left !important;
+        }
+
+        body[dir="rtl"] .resume-header .justify-center {
+            justify-content: center !important;
+        }
+
+        body[dir="rtl"] .resume-header .justify-start,
+        body[dir="rtl"] .resume-header .md\:justify-start {
+            justify-content: flex-start !important;
+        }
+
+        body[dir="rtl"] .resume-header .justify-end,
+        body[dir="rtl"] .resume-header .md\:justify-end {
+            justify-content: flex-end !important;
+        }
+
+        .contact-item {
+            gap: 0.5rem;
+        }
+
+        .contact-icon {
+            font-size: 0.875rem;
+        }
+
+        body[dir="rtl"] .contact-item .contact-icon {
+            order: 2;
+            margin-inline-start: 0.5rem;
+            margin-inline-end: 0;
+        }
+
         #resume-container {
             transition: transform 0.4s ease, opacity 0.4s ease;
         }
@@ -402,24 +436,24 @@
         <div id="resume-container" class="bg-white shadow-2xl rounded-lg p-8 md:p-12 print-container">
 
             <!-- Header Section -->
-            <header class="flex flex-col md:flex-row items-center justify-between mb-12 pb-8 border-b-2 border-gray-100 dark:border-[var(--border-color)]">
+            <header class="resume-header flex flex-col md:flex-row items-center justify-between mb-12 pb-8 border-b-2 border-gray-100 dark:border-[var(--border-color)]">
                 <div class="text-center md:text-left">
                     <h1 class="text-4xl md:text-5xl font-bold text-gray-800 tracking-tight" data-i18n="header.name">Ali Ghanbari</h1>
                     <div class="mt-4 grid grid-cols-1 md:grid-cols-2 gap-x-6 gap-y-2 text-gray-600 text-md">
-                        <span class="flex items-center justify-center md:justify-start">
-                            <i class="fas fa-map-marker-alt mr-2 text-gray-400"></i>
+                        <span class="contact-item flex items-center gap-2 justify-center md:justify-start">
+                            <i class="contact-icon fas fa-map-marker-alt text-gray-400"></i>
                             <span data-i18n="header.location">Tehran, Iran</span>
                         </span>
-                        <a href="tel:+989397860366" class="flex items-center justify-center md:justify-end text-gray-600 hover:text-[var(--divar-red)] transition-colors">
-                            <i class="fas fa-phone mr-2 text-gray-400"></i>
+                        <a href="tel:+989397860366" class="contact-item flex items-center gap-2 justify-center md:justify-end text-gray-600 hover:text-[var(--divar-red)] transition-colors">
+                            <i class="contact-icon fas fa-phone text-gray-400"></i>
                             <span data-i18n="header.phone">+98 939 786 0366</span>
                         </a>
-                        <a href="mailto:MrAli1211@outlook.com" class="flex items-center justify-center md:justify-start text-gray-600 hover:text-[var(--divar-red)] transition-colors">
-                            <i class="fas fa-envelope mr-2 text-gray-400"></i>
+                        <a href="mailto:MrAli1211@outlook.com" class="contact-item flex items-center gap-2 justify-center md:justify-start text-gray-600 hover:text-[var(--divar-red)] transition-colors">
+                            <i class="contact-icon fas fa-envelope text-gray-400"></i>
                             <span data-i18n="header.email">MrAli1211@outlook.com</span>
                         </a>
-                        <a href="https://linkedin.com/in/Ali-Ghanbari10" target="_blank" class="flex items-center justify-center md:justify-end text-gray-600 hover:text-[var(--divar-red)] transition-colors">
-                            <i class="fab fa-linkedin mr-2 text-gray-400"></i>
+                        <a href="https://linkedin.com/in/Ali-Ghanbari10" target="_blank" class="contact-item flex items-center gap-2 justify-center md:justify-end text-gray-600 hover:text-[var(--divar-red)] transition-colors">
+                            <i class="contact-icon fab fa-linkedin text-gray-400"></i>
                             <span data-i18n="header.linkedin">Ali-Ghanbari10</span>
                         </a>
                     </div>
