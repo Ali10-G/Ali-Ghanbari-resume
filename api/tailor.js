@@ -88,15 +88,22 @@ export default async function handler(request, response) {
   }
 
   try {
-    const { jobTitle } = request.body;
+    const { jobTitle, language } = request.body;
     if (!jobTitle) {
       return response.status(400).json({ message: "jobTitle is required" });
     }
+
+    const normalizedLanguage = language === 'fa' ? 'fa' : 'en';
+    const languageInstruction = normalizedLanguage === 'fa'
+      ? 'Respond entirely in Persian (Farsi) with fluent, natural phrasing. Keep all experience and skill IDs exactly as provided.'
+      : 'Respond entirely in English while keeping all experience and skill IDs exactly as provided.';
 
     const prompt = `
         Analyze the following resume content and tailor it for the job title: "${jobTitle}".
 
         **Tone of Voice Instructions:** The user's core values are teamwork and authenticity. The generated text must reflect this. Use a humble yet confident, action-oriented, and team-focused tone ("we" for team achievements). Avoid buzzwords, exaggeration, or language that sounds like a "lone star". The summary should be grounded in the provided facts.
+
+        ${languageInstruction}
 
         1.  **Rewrite the Summary:** Create a professional summary (3-4 sentences) that highlights the most relevant aspects for this specific role, while adhering to the specified tone.
                - please note that you should look at everything that is in the resume, use all of the information which the resume suggest!(including Nasiba exprience and New-Samaneh magazine)
