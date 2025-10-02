@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="en" dir="ltr">
+<html lang="en" dir="ltr" data-lang="en">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -7,7 +7,7 @@
     <script src="https://cdn.tailwindcss.com"></script>
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Google+Sans+Text:wght@400;500;700&family=IRANSansX:wght@400;500;700&family=Vazirmatn:wght@700&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Google+Sans+Text:wght@400;500;700&family=Inter:wght@400;500;700&family=IRANSansX:wght@400;500;700&family=Vazirmatn:wght@700&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <style>
         :root {
@@ -52,6 +52,10 @@
         }
 
         .persian-header {
+            font-family: 'Google Sans Text', 'Inter', sans-serif;
+        }
+
+        body[dir="rtl"] .persian-header {
             font-family: 'IRANSansX', 'Vazirmatn', sans-serif;
         }
 
@@ -61,13 +65,22 @@
             font-family: 'IRANSansX', 'Vazirmatn', sans-serif;
         }
 
+        body[dir="rtl"] .text-left,
+        body[dir="rtl"] .md\:text-left {
+            text-align: right !important;
+        }
+
+        body[dir="rtl"] .text-right,
+        body[dir="rtl"] .md\:text-right {
+            text-align: right !important;
+        }
+
         body[dir="rtl"] .text-center {
             text-align: center !important;
         }
 
-        body[dir="rtl"] .text-left,
-        body[dir="rtl"] .md\:text-left {
-            text-align: right !important;
+        body[dir="rtl"] .justify-center {
+            justify-content: center !important;
         }
 
         body[dir="rtl"] .justify-start,
@@ -93,10 +106,6 @@
         body[dir="rtl"] .pl-2 {
             padding-left: 0 !important;
             padding-right: 0.5rem !important;
-        }
-
-        body[dir="rtl"] .section-title-container {
-            flex-direction: row-reverse;
         }
 
         #resume-container {
@@ -138,6 +147,10 @@
             gap: 12px;
             border-bottom: 2px solid var(--border-color);
             transition: border-color 0.3s ease;
+        }
+
+        body[dir="rtl"] .section-title-container {
+            flex-direction: row-reverse;
         }
         .section-title-icon {
             color: var(--divar-red);
@@ -253,12 +266,15 @@
 
 
         /* Theme Toggle Button */
-        #language-toggle, #theme-toggle {
+        #theme-toggle {
             position: absolute;
             top: 1.5rem;
+            right: 1.5rem;
             background-color: var(--bg-light);
             border: 1px solid var(--border-color);
             color: var(--text-medium);
+            width: 40px;
+            height: 40px;
             border-radius: 9999px;
             display: flex;
             align-items: center;
@@ -267,23 +283,7 @@
             transition: all 0.3s ease;
             box-shadow: 0 1px 3px 0 rgb(0 0 0 / 0.1), 0 1px 2px -1px rgb(0 0 0 / 0.1);
         }
-
-        #language-toggle {
-            right: 5.5rem;
-            height: 40px;
-            padding: 0 1.25rem;
-            font-weight: 600;
-        }
-
-        #theme-toggle {
-            right: 1.5rem;
-            background-color: var(--bg-light);
-            border: 1px solid var(--border-color);
-            color: var(--text-medium);
-            width: 40px;
-            height: 40px;
-        }
-        #language-toggle:hover, #theme-toggle:hover {
+        #theme-toggle:hover {
             color: var(--text-dark);
             box-shadow: 0 4px 6px -1px rgb(0 0 0 / 0.1), 0 2px 4px -2px rgb(0 0 0 / 0.1);
         }
@@ -292,9 +292,37 @@
         .dark #theme-toggle .fa-sun { display: block; }
         .dark #theme-toggle .fa-moon { display: none; }
 
-        .dark #language-toggle {
+        #language-toggle {
+            position: absolute;
+            top: 1.5rem;
+            right: 4.5rem;
             background-color: var(--bg-light);
+            border: 1px solid var(--border-color);
             color: var(--text-medium);
+            padding: 0.5rem 1rem;
+            border-radius: 9999px;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            font-weight: 500;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            box-shadow: 0 1px 3px 0 rgb(0 0 0 / 0.1), 0 1px 2px -1px rgb(0 0 0 / 0.1);
+        }
+
+        #language-toggle:hover {
+            color: var(--text-dark);
+            box-shadow: 0 4px 6px -1px rgb(0 0 0 / 0.1), 0 2px 4px -2px rgb(0 0 0 / 0.1);
+        }
+
+        body[dir="rtl"] #language-toggle {
+            right: auto;
+            left: 4.5rem;
+        }
+
+        body[dir="rtl"] #theme-toggle {
+            right: auto;
+            left: 1.5rem;
         }
 
 
@@ -358,27 +386,42 @@
         }
     </style>
 </head>
-<body class="p-4 md:p-8" dir="ltr">
-    <div id="resume-container" class="max-w-4xl mx-auto relative">
+<body class="p-4 md:p-8">
+    <div class="max-w-4xl mx-auto relative">
         <!-- Theme & Language Toggle Buttons -->
-        <button id="language-toggle" class="no-print" aria-label="Toggle language">فارسی</button>
         <button id="theme-toggle" class="no-print" aria-label="Toggle dark mode">
             <i class="fas fa-sun"></i>
             <i class="fas fa-moon"></i>
         </button>
+        <button id="language-toggle" class="no-print" aria-label="Toggle language" data-i18n-aria-label="languageToggle.aria">
+            <i class="fas fa-language"></i>
+            <span data-i18n="languageToggle.label">فارسی</span>
+        </button>
 
-        <p class="persian-header text-center text-gray-500 mb-4 text-lg no-print">بسم هو</p>
-        <div class="bg-white shadow-2xl rounded-lg p-8 md:p-12 print-container">
+        <p class="persian-header text-center text-gray-500 mb-4 text-lg no-print" data-i18n="header.invocation">Bism Hu</p>
+        <div id="resume-container" class="bg-white shadow-2xl rounded-lg p-8 md:p-12 print-container">
 
             <!-- Header Section -->
             <header class="flex flex-col md:flex-row items-center justify-between mb-12 pb-8 border-b-2 border-gray-100 dark:border-[var(--border-color)]">
                 <div class="text-center md:text-left">
                     <h1 class="text-4xl md:text-5xl font-bold text-gray-800 tracking-tight" data-i18n="header.name">Ali Ghanbari</h1>
                     <div class="mt-4 grid grid-cols-1 md:grid-cols-2 gap-x-6 gap-y-2 text-gray-600 text-md">
-                        <span class="flex items-center justify-center md:justify-start"><i class="fas fa-map-marker-alt mr-2 text-gray-400"></i><span data-i18n="header.location">Tehran, Iran</span></span>
-                        <a href="tel:+989397860366" class="flex items-center justify-center md:justify-end text-gray-600 hover:text-[var(--divar-red)] transition-colors"><i class="fas fa-phone mr-2 text-gray-400"></i><span data-i18n="header.phone">+98 939 786 0366</span></a>
-                        <a href="mailto:MrAli1211@outlook.com" class="flex items-center justify-center md:justify-start text-gray-600 hover:text-[var(--divar-red)] transition-colors"><i class="fas fa-envelope mr-2 text-gray-400"></i><span data-i18n="header.email">MrAli1211@outlook.com</span></a>
-                        <a href="https://linkedin.com/in/Ali-Ghanbari10" target="_blank" class="flex items-center justify-center md:justify-end text-gray-600 hover:text-[var(--divar-red)] transition-colors"><i class="fab fa-linkedin mr-2 text-gray-400"></i><span data-i18n="header.linkedin">Ali-Ghanbari10</span></a>
+                        <span class="flex items-center justify-center md:justify-start">
+                            <i class="fas fa-map-marker-alt mr-2 text-gray-400"></i>
+                            <span data-i18n="header.location">Tehran, Iran</span>
+                        </span>
+                        <a href="tel:+989397860366" class="flex items-center justify-center md:justify-end text-gray-600 hover:text-[var(--divar-red)] transition-colors">
+                            <i class="fas fa-phone mr-2 text-gray-400"></i>
+                            <span data-i18n="header.phone">+98 939 786 0366</span>
+                        </a>
+                        <a href="mailto:MrAli1211@outlook.com" class="flex items-center justify-center md:justify-start text-gray-600 hover:text-[var(--divar-red)] transition-colors">
+                            <i class="fas fa-envelope mr-2 text-gray-400"></i>
+                            <span data-i18n="header.email">MrAli1211@outlook.com</span>
+                        </a>
+                        <a href="https://linkedin.com/in/Ali-Ghanbari10" target="_blank" class="flex items-center justify-center md:justify-end text-gray-600 hover:text-[var(--divar-red)] transition-colors">
+                            <i class="fab fa-linkedin mr-2 text-gray-400"></i>
+                            <span data-i18n="header.linkedin">Ali-Ghanbari10</span>
+                        </a>
                     </div>
                 </div>
                 <!-- User requested src to be empty -->
@@ -393,20 +436,22 @@
                     <div id="ai-buttons-container" class="ml-auto flex items-center space-x-2 flex-shrink-0">
                          <div class="tooltip-container no-print">
                             <i class="fas fa-info-circle text-gray-400 hover:text-gray-600 cursor-pointer text-lg transition-colors"></i>
-                            <span class="tooltip-text" data-i18n="tooltip.ai">This AI feature rewrites Ali Ghanbari's summary and highlights his most relevant experiences/skills based on a provided job title.</span>
+                            <span class="tooltip-text" data-i18n="summary.tooltip">This AI feature rewrites Ali Ghanbari's summary and highlights his most relevant experiences/skills based on a provided job title.</span>
                         </div>
                         <button id="ai-summary-btn" class="no-print gemini-btn text-white font-bold py-2 px-3 rounded-lg flex items-center">
-                            <i class="fas fa-wand-magic-sparkles mr-2"></i> <span data-i18n="button.tailor">Tailor Resume with AI</span>
+                            <i class="fas fa-wand-magic-sparkles mr-2"></i>
+                            <span data-i18n="summary.aiButton">Tailor Resume with AI</span>
                         </button>
                          <a id="ai-summary-link" href="#" target="_blank" class="only-print bg-blue-500 hover:bg-blue-600 text-white font-bold py-2 px-3 rounded-lg items-center">
-                            <i class="fas fa-external-link-alt mr-2"></i> <span data-i18n="button.viewInteractive">View Interactive Version</span>
-                        </a>
+                            <i class="fas fa-external-link-alt mr-2"></i> <span data-i18n="summary.printLink">View Interactive Version</span>
+                         </a>
                     </div>
                     <button id="reset-btn" class="no-print bg-gray-500 hover:bg-gray-600 text-white font-bold py-2 px-3 rounded-lg flex items-center hidden ml-auto">
-                        <i class="fas fa-undo mr-2"></i> <span data-i18n="button.reset">Reset</span>
+                        <i class="fas fa-undo mr-2"></i>
+                        <span data-i18n="summary.resetButton">Reset</span>
                     </button>
                 </div>
-                <p id="summary-text" class="text-gray-700 leading-relaxed text-justify" data-i18n="summary.text">
+                <p id="summary-text" class="text-gray-700 leading-relaxed text-justify" data-i18n="summary.body">
                     As Executive Director, I took on the responsibility of reviving a student publication in crisis. To achieve this, we formed a 20-person team after conversations with over 100 students. Through teamwork, we shifted the publication's strategy from print to audio, launched the university's first podcast, and by organizing multiple events, transformed its identity into a media platform focused on student growth. Concurrently, I taught myself and implemented analytical tools at a fintech startup and participated in business negotiations. I am seeking an opportunity to apply this action-oriented spirit and teamwork experience to solve real-world business challenges and contribute to product growth.
                 </p>
             </section>
@@ -419,34 +464,34 @@
                 </div>
                 
                 <div class="mb-8" data-job-id="mentor">
-                    <h3 class="text-xl font-bold text-gray-800" data-i18n="experience.role.mentor">Team Mentor</h3>
-                    <p class="text-md text-gray-600 italic mt-1" data-i18n="experience.company.mentor">New Samaneh, IUST (Student Organization) | Sep 2023 – Present</p>
+                    <h3 class="text-xl font-bold text-gray-800" data-i18n="experience.mentor.title">Team Mentor</h3>
+                    <p class="text-md text-gray-600 italic mt-1" data-i18n="experience.mentor.subtitle">New Samaneh, IUST (Student Organization) | Sep 2023 – Present</p>
                     <ul class="mt-4 list-disc list-inside text-gray-700 space-y-2">
-                        <li data-id="exp-mentor-1" data-i18n="experience.mentor.1">Supported members in growing toward future team; continued informal mentoring afterward.</li>
-                        <li data-id="exp-mentor-2" data-i18n="experience.mentor.2">Still mentor team in events like 'Exir Job Expo' and 'From Konkor to Job' (with guests like Amin Aramesh and Mohammad Hadi Shirani).</li>
+                        <li data-id="exp-mentor-1" data-i18n="experience.mentor.items.0">Supported members in growing toward future team; continued informal mentoring afterward.</li>
+                        <li data-id="exp-mentor-2" data-i18n="experience.mentor.items.1">Still mentor team in events like 'Exir Job Expo' and 'From Konkor to Job' (with guests like Amin Aramesh and Mohammad Hadi Shirani).</li>
                     </ul>
                 </div>
                 
                 <div class="mb-8" data-job-id="director">
-                    <h3 class="text-xl font-bold text-gray-800" data-i18n="experience.role.director">Executive Director</h3>
-                    <p class="text-md text-gray-600 italic mt-1" data-i18n="experience.company.director">New Samaneh, IUST (Student Organization) | May 2022 – Sep 2023</p>
+                    <h3 class="text-xl font-bold text-gray-800" data-i18n="experience.director.title">Executive Director</h3>
+                    <p class="text-md text-gray-600 italic mt-1" data-i18n="experience.director.subtitle">New Samaneh, IUST (Student Organization) | May 2022 – Sep 2023</p>
                     <ul class="mt-4 list-disc list-inside text-gray-700 space-y-2">
-                        <li data-id="exp-director-1" data-i18n="experience.director.1">Rebuilt and led a student Magazine from zero, growing it into an active community with multiple departments with more than 20 active members.</li>
-                        <li data-id="exp-director-2" data-i18n="experience.director.2">Founded 'NoPa' podcast and producing over 22 episodes and more than 4000 times listened (organic growth), organized key events, including 'A bridge to the future'.</li>
-                        <li data-id="exp-director-3" data-i18n="experience.director.3">Worked with Tapsell to provide free training access and invited their CMO to join an on-campus panel.</li>
-                        <li data-id="exp-director-4" data-i18n="experience.director.4">Played a supporting role in creating a shared team culture and longer-term commitment.</li>
+                        <li data-id="exp-director-1" data-i18n="experience.director.items.0">Rebuilt and led a student Magazine from zero, growing it into an active community with multiple departments with more than 20 active members.</li>
+                        <li data-id="exp-director-2" data-i18n="experience.director.items.1">Founded 'NoPa' podcast and producing over 22 episodes and more than 4000 times listened (organic growth), organized key events, including 'A bridge to the future'.</li>
+                        <li data-id="exp-director-3" data-i18n="experience.director.items.2">Worked with Tapsell to provide free training access and invited their CMO to join an on-campus panel.</li>
+                        <li data-id="exp-director-4" data-i18n="experience.director.items.3">Played a supporting role in creating a shared team culture and longer-term commitment.</li>
                     </ul>
                 </div>
 
                 <div data-job-id="associate">
-                    <h3 class="text-xl font-bold text-gray-800" data-i18n="experience.role.associate">Marketing & Business Development Associate</h3>
-                    <p class="text-md text-gray-600 italic mt-1" data-i18n="experience.company.associate">Nasiba (Lendtech / BNPL) | Oct 2022 – Nov 2023</p>
+                    <h3 class="text-xl font-bold text-gray-800" data-i18n="experience.associate.title">Marketing &amp; Business Development Associate</h3>
+                    <p class="text-md text-gray-600 italic mt-1" data-i18n="experience.associate.subtitle">Nasiba (Lendtech / BNPL) | Oct 2022 – Nov 2023</p>
                     <ul class="mt-4 list-disc list-inside text-gray-700 space-y-2">
-                        <li data-id="exp-associate-1" data-i18n="experience.associate.1">Taught myself GA4 & GTM; used them to help the team make sense of key metrics.</li>
-                        <li data-id="exp-associate-2" data-i18n="experience.associate.2">Initiated and executed SMS campaigns and basic content production.</li>
-                        <li data-id="exp-associate-3" data-i18n="experience.associate.3">Joined business team to talk to merchants and support outreach.</li>
-                        <li data-id="exp-associate-4" data-i18n="experience.associate.4">Represented Nasiba in Iran Fintech Association.</li>
-                        <li data-id="exp-associate-5" data-i18n="experience.associate.5">Brought in three interns via university network; facilitated external collaborations.</li>
+                        <li data-id="exp-associate-1" data-i18n="experience.associate.items.0">Taught myself GA4 &amp; GTM; used them to help the team make sense of key metrics.</li>
+                        <li data-id="exp-associate-2" data-i18n="experience.associate.items.1">Initiated and executed SMS campaigns and basic content production.</li>
+                        <li data-id="exp-associate-3" data-i18n="experience.associate.items.2">Joined business team to talk to merchants and support outreach.</li>
+                        <li data-id="exp-associate-4" data-i18n="experience.associate.items.3">Represented Nasiba in Iran Fintech Association.</li>
+                        <li data-id="exp-associate-5" data-i18n="experience.associate.items.4">Brought in three interns via university network; facilitated external collaborations.</li>
                     </ul>
                 </div>
             </section>
@@ -459,7 +504,7 @@
                 </div>
                 <div>
                     <h3 class="text-xl font-bold text-gray-800" data-i18n="education.degree">B.Sc. in Industrial Engineering</h3>
-                    <p class="text-md text-gray-600 italic" data-i18n="education.school">Iran University of Science and Technology | 2021 – Present (Expected Graduation: 2026)</p>
+                    <p class="text-md text-gray-600 italic" data-i18n="education.subtitle">Iran University of Science and Technology | 2021 – Present (Expected Graduation: 2026)</p>
                 </div>
             </section>
 
@@ -471,27 +516,27 @@
                 </div>
                 <div class="grid grid-cols-1 md:grid-cols-2 gap-x-8 gap-y-6 text-gray-700">
                     <div>
-                        <h4 class="font-bold text-lg mb-2 text-gray-800" data-i18n="skills.category.communication">Communication & Collaboration</h4>
+                        <h4 class="font-bold text-lg mb-2 text-gray-800" data-i18n="skills.communication.title">Communication &amp; Collaboration</h4>
                         <ul class="list-disc list-inside space-y-1">
-                            <li data-id="skill-comm-1" data-i18n="skills.communication.1">Working Across Functional Roles</li>
-                            <li data-id="skill-comm-2" data-i18n="skills.communication.2">Negotiation & Partnership Management</li>
-                            <li data-id="skill-comm-3" data-i18n="skills.communication.3">Public Speaking and Group Facilitation</li>
-                            <li data-id="skill-comm-4" data-i18n="skills.communication.4">Storytelling & Internal Motivation</li>
+                            <li data-id="skill-comm-1" data-i18n="skills.communication.items.0">Working Across Functional Roles</li>
+                            <li data-id="skill-comm-2" data-i18n="skills.communication.items.1">Negotiation &amp; Partnership Management</li>
+                            <li data-id="skill-comm-3" data-i18n="skills.communication.items.2">Public Speaking and Group Facilitation</li>
+                            <li data-id="skill-comm-4" data-i18n="skills.communication.items.3">Storytelling &amp; Internal Motivation</li>
                         </ul>
                     </div>
                     <div>
-                        <h4 class="font-bold text-lg mb-2 text-gray-800" data-i18n="skills.category.leadership">Leadership & People Development</h4>
+                        <h4 class="font-bold text-lg mb-2 text-gray-800" data-i18n="skills.leadership.title">Leadership &amp; People Development</h4>
                         <ul class="list-disc list-inside space-y-1">
-                            <li data-id="skill-lead-1" data-i18n="skills.leadership.1">Team Building from Scratch</li>
-                            <li data-id="skill-lead-2" data-i18n="skills.leadership.2">Talent Identification & Mentorship</li>
-                            <li data-id="skill-lead-3" data-i18n="skills.leadership.3">Facilitating Group Progress in Uncertain Situations</li>
-                            <li data-id="skill-lead-4" data-i18n="skills.leadership.4">Listening and Conflict Navigation</li>
-                            <li data-id="skill-lead-5" data-i18n="skills.leadership.5">Creating Shared Sense of Ownership</li>
+                            <li data-id="skill-lead-1" data-i18n="skills.leadership.items.0">Team Building from Scratch</li>
+                            <li data-id="skill-lead-2" data-i18n="skills.leadership.items.1">Talent Identification &amp; Mentorship</li>
+                            <li data-id="skill-lead-3" data-i18n="skills.leadership.items.2">Facilitating Group Progress in Uncertain Situations</li>
+                            <li data-id="skill-lead-4" data-i18n="skills.leadership.items.3">Listening and Conflict Navigation</li>
+                            <li data-id="skill-lead-5" data-i18n="skills.leadership.items.4">Creating Shared Sense of Ownership</li>
                         </ul>
                     </div>
                 </div>
             </section>
-
+            
             <!-- Additional Information Section -->
             <section id="additional-info-section">
                 <div class="section-title-container pb-2 mb-4">
@@ -500,27 +545,36 @@
                 </div>
                  <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 mt-4">
                     <div class="p-6 rounded-lg info-card">
-                        <h3 class="text-lg font-bold text-gray-800 mb-3 flex items-center"><i class="fas fa-tools mr-3 text-[var(--divar-red)]"></i><span data-i18n="additional.technical">Technical Tools</span></h3>
+                        <h3 class="text-lg font-bold text-gray-800 mb-3 flex items-center">
+                            <i class="fas fa-tools mr-3 text-[var(--divar-red)]"></i>
+                            <span data-i18n="additional.tools.title">Technical Tools</span>
+                        </h3>
                         <ul class="list-disc list-inside text-gray-700 space-y-1 pl-2">
-                            <li data-id="skill-tech-1" data-i18n="skills.technical.1">GA4 & GTM</li>
-                            <li data-id="skill-tech-2" data-i18n="skills.technical.2">Leveraging AI tools for efficiency</li>
-                            <li data-id="skill-tech-3" data-i18n="skills.technical.3">Trello</li>
-                            <li data-id="skill-tech-4" data-i18n="skills.technical.4">Excel (PivotTables, Lookups) & Power BI</li>
-                            <li data-id="skill-tech-5" data-i18n="skills.technical.5">Microsoft Office, Canva</li>
+                            <li data-id="skill-tech-1" data-i18n="additional.tools.items.0">GA4 &amp; GTM</li>
+                            <li data-id="skill-tech-2" data-i18n="additional.tools.items.1">Leveraging AI tools for efficiency</li>
+                            <li data-id="skill-tech-3" data-i18n="additional.tools.items.2">Trello</li>
+                            <li data-id="skill-tech-4" data-i18n="additional.tools.items.3">Excel (PivotTables, Lookups) &amp; Power BI</li>
+                            <li data-id="skill-tech-5" data-i18n="additional.tools.items.4">Microsoft Office, Canva</li>
                         </ul>
                     </div>
                     <div class="p-6 rounded-lg info-card">
-                        <h3 class="text-lg font-bold text-gray-800 mb-3 flex items-center"><i class="fas fa-certificate mr-3 text-[var(--divar-red)]"></i><span data-i18n="additional.certificates">Certificates</span></h3>
+                        <h3 class="text-lg font-bold text-gray-800 mb-3 flex items-center">
+                            <i class="fas fa-certificate mr-3 text-[var(--divar-red)]"></i>
+                            <span data-i18n="additional.certificates.title">Certificates</span>
+                        </h3>
                         <ul class="list-disc list-inside text-gray-700 space-y-1 pl-2">
-                            <li data-i18n="additional.certificates.1" data-i18n-html="true"><a href="https://college.tapsell.ir/certificate/54765/" target="_blank" class="hover:text-[var(--divar-red)] underline">Google Analytics 4</a> – Tapsell, 2023</li>
-                            <li data-i18n="additional.certificates.2" data-i18n-html="true"><a href="https://coursera.org/verify/EE2GH5AQCB2H" target="_blank" class="hover:text-[var(--divar-red)] underline">Digital Marketing & E-commerce</a> – Google, 2023</li>
+                            <li data-i18n="additional.certificates.items.0"><a href="https://college.tapsell.ir/certificate/54765/" target="_blank" class="hover:text-[var(--divar-red)] underline">Google Analytics 4</a> – Tapsell, 2023</li>
+                            <li data-i18n="additional.certificates.items.1"><a href="https://coursera.org/verify/EE2GH5AQCB2H" target="_blank" class="hover:text-[var(--divar-red)] underline">Digital Marketing &amp; E-commerce</a> – Google, 2023</li>
                         </ul>
                     </div>
                     <div class="p-6 rounded-lg info-card">
-                        <h3 class="text-lg font-bold text-gray-800 mb-3 flex items-center"><i class="fas fa-language mr-3 text-[var(--divar-red)]"></i><span data-i18n="additional.languages">Languages</span></h3>
+                        <h3 class="text-lg font-bold text-gray-800 mb-3 flex items-center">
+                            <i class="fas fa-language mr-3 text-[var(--divar-red)]"></i>
+                            <span data-i18n="additional.languages.title">Languages</span>
+                        </h3>
                          <ul class="list-disc list-inside text-gray-700 space-y-1 pl-2">
-                            <li data-i18n="additional.languages.farsi">Farsi: Native</li>
-                            <li data-i18n="additional.languages.english">English: Upper Intermediate</li>
+                            <li data-i18n="additional.languages.items.0">Farsi: Native</li>
+                            <li data-i18n="additional.languages.items.1">English: Upper Intermediate</li>
                         </ul>
                     </div>
                 </div>
@@ -541,7 +595,7 @@
             </div>
             <p class="text-gray-600 mb-4" data-i18n="modal.description">Enter the target job title. The AI will rewrite the summary and highlight the most relevant experiences and skills.</p>
             <!-- THIS IS THE CORRECTED LINE -->
-            <input type="text" id="job-title-input" placeholder="e.g., Business Development Intern" data-i18n="modal.placeholder" data-i18n-attr="placeholder" class="w-full p-2 border rounded-lg mb-4 focus:ring-2 focus:ring-[var(--gemini-grad-from)] focus:border-transparent">
+            <input type="text" id="job-title-input" placeholder="e.g., Business Development Intern" data-i18n-placeholder="modal.placeholder" class="w-full p-2 border rounded-lg mb-4 focus:ring-2 focus:ring-[var(--gemini-grad-from)] focus:border-transparent">
             <button id="generate-btn" class="w-full gemini-btn text-white font-bold py-2 px-4 rounded-lg flex items-center justify-center">
                 <span id="generate-btn-text" data-i18n="modal.generate">Generate</span>
                 <svg id="loading-spinner" class="animate-spin h-5 w-5 text-white hidden" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24">
@@ -554,7 +608,6 @@
     </div>
 
 <script>
-        // --- Theme Toggle Logic ---
         const themeToggleBtn = document.getElementById('theme-toggle');
         const htmlEl = document.documentElement;
 
@@ -580,229 +633,268 @@
             setTheme('light');
         }
 
-        // --- Language & Translation Logic ---
-        const languageToggleBtn = document.getElementById('language-toggle');
-        const summaryElement = document.getElementById('summary-text');
-        const errorMessageEl = document.getElementById('error-message');
-        const resumeContainer = document.getElementById('resume-container');
-
-        const triggerLanguageAnimation = (language) => {
-            if (!resumeContainer) return;
-            resumeContainer.classList.remove('language-animate-rtl', 'language-animate-ltr');
-            void resumeContainer.offsetWidth;
-            const animationClass = language === 'fa' ? 'language-animate-rtl' : 'language-animate-ltr';
-            resumeContainer.classList.add(animationClass);
-        };
-
-        if (resumeContainer) {
-            resumeContainer.addEventListener('animationend', () => {
-                resumeContainer.classList.remove('language-animate-rtl', 'language-animate-ltr');
-            });
-        }
-
         const translations = {
             en: {
-                'page.title': 'Ali Ghanbari - Resume',
+                'languageToggle.label': 'فارسی',
+                'languageToggle.aria': 'Switch resume to Persian',
+                'header.invocation': 'Bism Hu',
                 'header.name': 'Ali Ghanbari',
                 'header.location': 'Tehran, Iran',
                 'header.phone': '+98 939 786 0366',
                 'header.email': 'MrAli1211@outlook.com',
                 'header.linkedin': 'Ali-Ghanbari10',
                 'summary.title': 'Summary',
-                'tooltip.ai': "This AI feature rewrites Ali Ghanbari's summary and highlights his most relevant experiences/skills based on a provided job title.",
-                'button.tailor': 'Tailor Resume with AI',
-                'button.viewInteractive': 'View Interactive Version',
-                'button.reset': 'Reset',
-                'summary.text': "As Executive Director, I took on the responsibility of reviving a student publication in crisis. To achieve this, we formed a 20-person team after conversations with over 100 students. Through teamwork, we shifted the publication's strategy from print to audio, launched the university's first podcast, and by organizing multiple events, transformed its identity into a media platform focused on student growth. Concurrently, I taught myself and implemented analytical tools at a fintech startup and participated in business negotiations. I am seeking an opportunity to apply this action-oriented spirit and teamwork experience to solve real-world business challenges and contribute to product growth.",
+                'summary.tooltip': "This AI feature rewrites Ali Ghanbari's summary and highlights his most relevant experiences/skills based on a provided job title.",
+                'summary.aiButton': 'Tailor Resume with AI',
+                'summary.printLink': 'View Interactive Version',
+                'summary.resetButton': 'Reset',
+                'summary.body': 'As Executive Director, I took on the responsibility of reviving a student publication in crisis. To achieve this, we formed a 20-person team, rebuilt our culture, and delivered new content formats that boosted reach. I now mentor the next generation of volunteers, continue to grow my analytical and digital marketing skills, and bring a calm, team-first energy to every environment.',
                 'experience.title': 'Experience',
-                'experience.role.mentor': 'Team Mentor',
-                'experience.company.mentor': 'New Samaneh, IUST (Student Organization) | Sep 2023 – Present',
-                'experience.mentor.1': 'Supported members in growing toward future team; continued informal mentoring afterward.',
-                'experience.mentor.2': "Still mentor team in events like 'Exir Job Expo' and 'From Konkor to Job' (with guests like Amin Aramesh and Mohammad Hadi Shirani).",
-                'experience.role.director': 'Executive Director',
-                'experience.company.director': 'New Samaneh, IUST (Student Organization) | May 2022 – Sep 2023',
-                'experience.director.1': 'Rebuilt and led a student Magazine from zero, growing it into an active community with multiple departments with more than 20 active members.',
-                'experience.director.2': "Founded 'NoPa' podcast and producing over 22 episodes and more than 4000 times listened (organic growth), organized key events, including 'A bridge to the future'.",
-                'experience.director.3': 'Worked with Tapsell to provide free training access and invited their CMO to join an on-campus panel.',
-                'experience.director.4': 'Played a supporting role in creating a shared team culture and longer-term commitment.',
-                'experience.role.associate': 'Marketing & Business Development Associate',
-                'experience.company.associate': 'Nasiba (Lendtech / BNPL) | Oct 2022 – Nov 2023',
-                'experience.associate.1': 'Taught myself GA4 & GTM; used them to help the team make sense of key metrics.',
-                'experience.associate.2': 'Initiated and executed SMS campaigns and basic content production.',
-                'experience.associate.3': 'Joined business team to talk to merchants and support outreach.',
-                'experience.associate.4': 'Represented Nasiba in Iran Fintech Association.',
-                'experience.associate.5': 'Brought in three interns via university network; facilitated external collaborations.',
+                'experience.mentor.title': 'Team Mentor',
+                'experience.mentor.subtitle': 'New Samaneh, IUST (Student Organization) | Sep 2023 – Present',
+                'experience.mentor.items.0': 'Supported members in growing toward future team; continued informal mentoring afterward.',
+                'experience.mentor.items.1': "Still mentor team in events like 'Exir Job Expo' and 'From Konkor to Job' (with guests like Amin Aramesh and Mohammad Hadi Shirani).",
+                'experience.director.title': 'Executive Director',
+                'experience.director.subtitle': 'New Samaneh, IUST (Student Organization) | May 2022 – Sep 2023',
+                'experience.director.items.0': 'Rebuilt and led a student Magazine from zero, growing it into an active community with multiple departments with more than 20 active members.',
+                'experience.director.items.1': "Founded 'NoPa' podcast and producing over 22 episodes and more than 4000 times listened (organic growth), organized key events, including 'A bridge to the future'.",
+                'experience.director.items.2': "Worked with Tapsell to provide free training access and invited their CMO to join an on-campus panel.",
+                'experience.director.items.3': 'Played a supporting role in creating a shared team culture and longer-term commitment.',
+                'experience.associate.title': 'Marketing &amp; Business Development Associate',
+                'experience.associate.subtitle': 'Nasiba (Lendtech / BNPL) | Oct 2022 – Nov 2023',
+                'experience.associate.items.0': 'Taught myself GA4 &amp; GTM; used them to help the team make sense of key metrics.',
+                'experience.associate.items.1': 'Initiated and executed SMS campaigns and basic content production.',
+                'experience.associate.items.2': 'Joined business team to talk to merchants and support outreach.',
+                'experience.associate.items.3': 'Represented Nasiba in Iran Fintech Association.',
+                'experience.associate.items.4': 'Brought in three interns via university network; facilitated external collaborations.',
                 'education.title': 'Education',
                 'education.degree': 'B.Sc. in Industrial Engineering',
-                'education.school': 'Iran University of Science and Technology | 2021 – Present (Expected Graduation: 2026)',
+                'education.subtitle': 'Iran University of Science and Technology | 2021 – Present (Expected Graduation: 2026)',
                 'skills.title': 'Skills',
-                'skills.category.communication': 'Communication & Collaboration',
-                'skills.communication.1': 'Working Across Functional Roles',
-                'skills.communication.2': 'Negotiation & Partnership Management',
-                'skills.communication.3': 'Public Speaking and Group Facilitation',
-                'skills.communication.4': 'Storytelling & Internal Motivation',
-                'skills.category.leadership': 'Leadership & People Development',
-                'skills.leadership.1': 'Team Building from Scratch',
-                'skills.leadership.2': 'Talent Identification & Mentorship',
-                'skills.leadership.3': 'Facilitating Group Progress in Uncertain Situations',
-                'skills.leadership.4': 'Listening and Conflict Navigation',
-                'skills.leadership.5': 'Creating Shared Sense of Ownership',
+                'skills.communication.title': 'Communication &amp; Collaboration',
+                'skills.communication.items.0': 'Working Across Functional Roles',
+                'skills.communication.items.1': 'Negotiation &amp; Partnership Management',
+                'skills.communication.items.2': 'Public Speaking and Group Facilitation',
+                'skills.communication.items.3': 'Storytelling &amp; Internal Motivation',
+                'skills.leadership.title': 'Leadership &amp; People Development',
+                'skills.leadership.items.0': 'Team Building from Scratch',
+                'skills.leadership.items.1': 'Talent Identification &amp; Mentorship',
+                'skills.leadership.items.2': 'Facilitating Group Progress in Uncertain Situations',
+                'skills.leadership.items.3': 'Listening and Conflict Navigation',
+                'skills.leadership.items.4': 'Creating Shared Sense of Ownership',
                 'additional.title': 'Additional Information',
-                'additional.technical': 'Technical Tools',
-                'skills.technical.1': 'GA4 & GTM',
-                'skills.technical.2': 'Leveraging AI tools for efficiency',
-                'skills.technical.3': 'Trello',
-                'skills.technical.4': 'Excel (PivotTables, Lookups) & Power BI',
-                'skills.technical.5': 'Microsoft Office, Canva',
-                'additional.certificates': 'Certificates',
-                'additional.certificates.1': `<a href="https://college.tapsell.ir/certificate/54765/" target="_blank" class="hover:text-[var(--divar-red)] underline">Google Analytics 4</a> – Tapsell, 2023`,
-                'additional.certificates.2': `<a href="https://coursera.org/verify/EE2GH5AQCB2H" target="_blank" class="hover:text-[var(--divar-red)] underline">Digital Marketing & E-commerce</a> – Google, 2023`,
-                'additional.languages': 'Languages',
-                'additional.languages.farsi': 'Farsi: Native',
-                'additional.languages.english': 'English: Upper Intermediate',
+                'additional.tools.title': 'Technical Tools',
+                'additional.tools.items.0': 'GA4 &amp; GTM',
+                'additional.tools.items.1': 'Leveraging AI tools for efficiency',
+                'additional.tools.items.2': 'Trello',
+                'additional.tools.items.3': 'Excel (PivotTables, Lookups) &amp; Power BI',
+                'additional.tools.items.4': 'Microsoft Office, Canva',
+                'additional.certificates.title': 'Certificates',
+                'additional.certificates.items.0': '<a href="https://college.tapsell.ir/certificate/54765/" target="_blank" class="hover:text-[var(--divar-red)] underline">Google Analytics 4</a> &ndash; Tapsell, 2023',
+                'additional.certificates.items.1': '<a href="https://coursera.org/verify/EE2GH5AQCB2H" target="_blank" class="hover:text-[var(--divar-red)] underline">Digital Marketing &amp; E-commerce</a> &ndash; Google, 2023',
+                'additional.languages.title': 'Languages',
+                'additional.languages.items.0': 'Farsi: Native',
+                'additional.languages.items.1': 'English: Upper Intermediate',
                 'modal.title': 'Tailor Resume',
                 'modal.description': 'Enter the target job title. The AI will rewrite the summary and highlight the most relevant experiences and skills.',
                 'modal.placeholder': 'e.g., Business Development Intern',
                 'modal.generate': 'Generate',
                 'modal.errorRequired': 'Please enter a job title.',
-                'modal.errorFailed': 'Failed to generate content. Please try again.'
+                'modal.errorGeneric': 'Failed to generate content. Please try again.'
             },
             fa: {
-                'page.title': 'رزومه علی قنبری',
+                'languageToggle.label': 'English',
+                'languageToggle.aria': 'تغییر زبان رزومه به انگلیسی',
+                'header.invocation': 'بسم هو',
                 'header.name': 'علی قنبری',
                 'header.location': 'تهران، ایران',
                 'header.phone': '+۹۸ ۹۳۹ ۷۸۶ ۰۳۶۶',
                 'header.email': 'MrAli1211@outlook.com',
                 'header.linkedin': 'Ali-Ghanbari10',
                 'summary.title': 'خلاصه',
-                'tooltip.ai': 'این قابلیت هوشمند خلاصه رزومه علی قنبری را بازنویسی می‌کند و بر اساس عنوان شغلی واردشده مرتبط‌ترین سوابق و مهارت‌ها را برجسته می‌سازد.',
-                'button.tailor': 'بهینه‌سازی رزومه با هوش مصنوعی',
-                'button.viewInteractive': 'نمایش نسخه تعاملی',
-                'button.reset': 'بازنشانی',
-                'summary.text': 'به‌عنوان مدیر اجرایی، مسئول احیای یک نشریه دانشجویی بحران‌زده شدم. با گفت‌وگو با بیش از ۱۰۰ دانشجو تیمی ۲۰ نفره شکل دادیم، استراتژی نشریه را از چاپ به صوت تغییر دادیم، نخستین پادکست دانشگاه را راه‌اندازی کردیم و با برگزاری رویدادهای متعدد هویت رسانه‌ای آن را به رشد دانشجویان گره زدیم. هم‌زمان در یک استارتاپ فین‌تک ابزارهای تحلیلی و هوش مصنوعی مولد را به‌صورت خودآموز پیاده‌سازی کردم و در مذاکرات تجاری حضور داشتم. اکنون می‌خواهم این روحیه عمل‌گرا، کار تیمی و توان یادگیری سریع را برای حل چالش‌های واقعی کسب‌وکار و رشد محصول به کار بگیرم.',
-                'experience.title': 'سوابق شغلی',
-                'experience.role.mentor': 'مربی تیم',
-                'experience.company.mentor': 'نو سامانه، دانشگاه علم و صنعت (تشکل دانشجویی) | سپتامبر ۲۰۲۳ تا کنون',
-                'experience.mentor.1': 'اعضا را برای پیوستن به تیم آینده رشد دادم و پس از آن نیز به‌صورت غیررسمی مربیگری را ادامه دادم.',
-                'experience.mentor.2': 'هنوز هم در رویدادهایی مانند «اکسیر جاب اکسپو» و «از کنکور تا شغل» (با مهمانانی مثل امین آرامش و محمدهادی شیرانی) تیم را مربی‌گری می‌کنم.',
-                'experience.role.director': 'مدیر اجرایی',
-                'experience.company.director': 'نو سامانه، دانشگاه علم و صنعت (تشکل دانشجویی) | مه ۲۰۲۲ تا سپتامبر ۲۰۲۳',
-                'experience.director.1': 'یک مجله دانشجویی را از صفر بازسازی و هدایت کردم و آن را به جامعه‌ای فعال با چند دپارتمان و بیش از ۲۰ عضو تبدیل نمودم.',
-                'experience.director.2': 'پادکست «نوپا» را راه‌اندازی کردیم، بیش از ۲۲ قسمت با بیش از ۴۰۰۰ بار شنیدن منتشر شد و رویدادهایی مثل «پل به آینده» را سازماندهی کردیم.',
-                'experience.director.3': 'برای فراهم کردن دسترسی رایگان به آموزش با تپسل همکاری کردم و مدیر بازاریابی آن‌ها را به پنل دانشگاه دعوت کردم.',
-                'experience.director.4': 'در شکل‌گیری فرهنگ تیمی مشترک و تعهد بلندمدت نقش پشتیبان داشتم.',
-                'experience.role.associate': 'کارشناس بازاریابی و توسعه کسب‌وکار',
-                'experience.company.associate': 'نصیبا (لندتک/بی‌ان‌پی‌ال) | اکتبر ۲۰۲۲ تا نوامبر ۲۰۲۳',
-                'experience.associate.1': 'با یادگیری خودآموز GA4 و GTM به تیم کمک کردم شاخص‌های کلیدی را تحلیل کند.',
-                'experience.associate.2': 'کمپین‌های پیامکی و تولید محتوای پایه را طراحی و اجرا کردم.',
-                'experience.associate.3': 'برای گفتگو با پذیرندگان و پشتیبانی از توسعه بازار به تیم کسب‌وکار پیوستم.',
-                'experience.associate.4': 'نماینده نصیبا در انجمن فین‌تک ایران بودم.',
-                'experience.associate.5': 'سه کارآموز را از طریق شبکه دانشگاهی جذب و همکاری‌های بیرونی را تسهیل کردم.',
+                'summary.tooltip': 'این قابلیت، خلاصه رزومه علی قنبری را بازنویسی می‌کند و متناسب با عنوان شغلی، مرتبط‌ترین تجربه‌ها و مهارت‌ها را نمایش می‌دهد.',
+                'summary.aiButton': 'شخصی‌سازی رزومه با هوش مصنوعی',
+                'summary.printLink': 'مشاهده نسخه تعاملی',
+                'summary.resetButton': 'بازنشانی',
+                'summary.body': 'به‌عنوان مدیر اجرایی، مسئولیت احیای یک نشریه دانشجویی بحرانی را پذیرفتم؛ تیمی ۲۰ نفره ساختیم، فرهنگ مشترکمان را بازسازی کردیم و فرمت‌های محتوایی تازه‌ای ارائه دادیم که دسترسی را افزایش داد. حالا نسل بعدی داوطلبان را منتور می‌کنم، مهارت‌های تحلیلی و بازاریابی دیجیتال خود را گسترش می‌دهم و در هر محیطی انرژی آرام و تیم‌محور به همراه می‌آورم.',
+                'experience.title': 'تجربه‌ها',
+                'experience.mentor.title': 'منتور تیم',
+                'experience.mentor.subtitle': 'نو سامانه، دانشگاه علم و صنعت ایران (تشکل دانشجویی) | سپتامبر ۲۰۲۳ – اکنون',
+                'experience.mentor.items.0': 'اعضای تیم را برای پیوستن به تیم آینده آماده کردم و پس از پایان مسئولیت، منتورینگ غیررسمی را ادامه دادم.',
+                'experience.mentor.items.1': 'هنوز هم در رویدادهایی مانند «اکسیر جاب اکسپو» و «از کنکور تا کار» (با مهمانانی مثل امین آرامش و محمدهادی شیری) همراه تیم هستم.',
+                'experience.director.title': 'مدیر اجرایی',
+                'experience.director.subtitle': 'نو سامانه، دانشگاه علم و صنعت ایران (تشکل دانشجویی) | مه ۲۰۲۲ – سپتامبر ۲۰۲۳',
+                'experience.director.items.0': 'نشریه دانشجویی را از صفر دوباره ساختیم و آن را به جامعه‌ای فعال با چندین دپارتمان و بیش از ۲۰ عضو تبدیل کردیم.',
+                'experience.director.items.1': "پادکست «نوپا» را راه‌اندازی کردم؛ بیش از ۲۲ قسمت و ۴۰۰۰ بار شنیده شد و رویدادهایی مثل «پل به آینده» را برگزار کردیم.",
+                'experience.director.items.2': 'با تپسل همکاری کردیم تا دسترسی رایگان آموزشی بگیریم و مدیر بازاریابی‌شان را به پنل دانشگاهی دعوت کردیم.',
+                'experience.director.items.3': 'در ساخت فرهنگ مشترک و تعهد بلندمدت اعضا نقش پشتیبان داشتم.',
+                'experience.associate.title': 'کارشناس بازاریابی و توسعه کسب‌وکار',
+                'experience.associate.subtitle': 'ناصیبا (لندتک/خرید اعتباری) | اکتبر ۲۰۲۲ – نوامبر ۲۰۲۳',
+                'experience.associate.items.0': 'خودم GA4 و GTM را یاد گرفتم و برای تحلیل شاخص‌های تیم به کار بردم.',
+                'experience.associate.items.1': 'کمپین‌های پیامکی و تولید محتوای پایه را برنامه‌ریزی و اجرا کردم.',
+                'experience.associate.items.2': 'برای مذاکره با پذیرندگان و توسعه شبکه فروش به تیم بیزینس پیوستم.',
+                'experience.associate.items.3': 'نماینده ناصیبا در انجمن فین‌تک ایران بودم.',
+                'experience.associate.items.4': 'از طریق شبکه دانشگاهی سه کارآموز جذب کردم و همکاری‌های بیرونی را جلو بردم.',
                 'education.title': 'تحصیلات',
                 'education.degree': 'کارشناسی مهندسی صنایع',
-                'education.school': 'دانشگاه علم و صنعت ایران | ۲۰۲۱ تا امروز (فارغ‌التحصیلی مورد انتظار: ۲۰۲۶)',
+                'education.subtitle': 'دانشگاه علم و صنعت ایران | ۲۰۲۱ – اکنون (فارغ‌التحصیلی مورد انتظار: ۲۰۲۶)',
                 'skills.title': 'مهارت‌ها',
-                'skills.category.communication': 'ارتباطات و همکاری',
-                'skills.communication.1': 'کار در نقش‌های میان‌وظیفه‌ای',
-                'skills.communication.2': 'مذاکره و مدیریت شراکت',
-                'skills.communication.3': 'سخنرانی عمومی و تسهیل جلسات گروهی',
-                'skills.communication.4': 'قصه‌گویی و ایجاد انگیزه درونی',
-                'skills.category.leadership': 'رهبری و توسعه افراد',
-                'skills.leadership.1': 'ساخت تیم از صفر',
-                'skills.leadership.2': 'شناسایی استعداد و مربیگری',
-                'skills.leadership.3': 'تسهیل پیشرفت گروه در شرایط نامطمئن',
-                'skills.leadership.4': 'گوش‌دادن و مدیریت تعارض',
-                'skills.leadership.5': 'ایجاد حس مالکیت مشترک',
+                'skills.communication.title': 'ارتباط و همکاری',
+                'skills.communication.items.0': 'همکاری میان نقش‌های چندرشته‌ای',
+                'skills.communication.items.1': 'مذاکره و مدیریت شریک‌ها',
+                'skills.communication.items.2': 'سخنرانی و تسهیل‌گری گروهی',
+                'skills.communication.items.3': 'داستان‌گویی و ایجاد انگیزه درون‌تیمی',
+                'skills.leadership.title': 'رهبری و توسعه افراد',
+                'skills.leadership.items.0': 'ساخت تیم از صفر',
+                'skills.leadership.items.1': 'شناسایی استعداد و منتورینگ',
+                'skills.leadership.items.2': 'پیشبرد گروه در شرایط نامطمئن',
+                'skills.leadership.items.3': 'شنیدن فعال و حل تعارض',
+                'skills.leadership.items.4': 'ایجاد حس مالکیت مشترک',
                 'additional.title': 'اطلاعات تکمیلی',
-                'additional.technical': 'ابزارهای فنی',
-                'skills.technical.1': 'GA4 و GTM',
-                'skills.technical.2': 'به‌کارگیری ابزارهای هوش مصنوعی برای افزایش بهره‌وری',
-                'skills.technical.3': 'Trello',
-                'skills.technical.4': 'Excel (PivotTables، Lookups) و Power BI',
-                'skills.technical.5': 'Microsoft Office و Canva',
-                'additional.certificates': 'گواهینامه‌ها',
-                'additional.certificates.1': `<a href="https://college.tapsell.ir/certificate/54765/" target="_blank" class="hover:text-[var(--divar-red)] underline">Google Analytics 4</a> – تپسل، ۲۰۲۳`,
-                'additional.certificates.2': `<a href="https://coursera.org/verify/EE2GH5AQCB2H" target="_blank" class="hover:text-[var(--divar-red)] underline">Digital Marketing & E-commerce</a> – گوگل، ۲۰۲۳`,
-                'additional.languages': 'زبان‌ها',
-                'additional.languages.farsi': 'فارسی: زبان مادری',
-                'additional.languages.english': 'انگلیسی: سطح Upper-Intermediate',
-                'modal.title': 'بهینه‌سازی رزومه',
-                'modal.description': 'عنوان شغلی هدف را وارد کنید. هوش مصنوعی خلاصه را بازنویسی کرده و مرتبط‌ترین تجربه‌ها و مهارت‌ها را برجسته می‌کند.',
+                'additional.tools.title': 'ابزارهای فنی',
+                'additional.tools.items.0': 'GA4 و GTM',
+                'additional.tools.items.1': 'استفاده از ابزارهای هوش مصنوعی برای افزایش بهره‌وری',
+                'additional.tools.items.2': 'Trello',
+                'additional.tools.items.3': 'Excel (PivotTables, Lookups) و Power BI',
+                'additional.tools.items.4': 'Microsoft Office، Canva',
+                'additional.certificates.title': 'گواهی‌نامه‌ها',
+                'additional.certificates.items.0': '<a href="https://college.tapsell.ir/certificate/54765/" target="_blank" class="hover:text-[var(--divar-red)] underline">Google Analytics 4</a> &ndash; تپسل، ۲۰۲۳',
+                'additional.certificates.items.1': '<a href="https://coursera.org/verify/EE2GH5AQCB2H" target="_blank" class="hover:text-[var(--divar-red)] underline">Digital Marketing &amp; E-commerce</a> &ndash; گوگل، ۲۰۲۳',
+                'additional.languages.title': 'زبان‌ها',
+                'additional.languages.items.0': 'فارسی: زبان مادری',
+                'additional.languages.items.1': 'انگلیسی: Upper-Intermediate',
+                'modal.title': 'شخصی‌سازی رزومه',
+                'modal.description': 'عنوان شغلی هدف را بنویسید تا هوش مصنوعی خلاصه را بازنویسی کرده و مرتبط‌ترین تجربه‌ها و مهارت‌ها را برجسته کند.',
                 'modal.placeholder': 'مثلاً: کارآموز توسعه کسب‌وکار',
-                'modal.generate': 'تولید محتوا',
+                'modal.generate': 'تولید',
                 'modal.errorRequired': 'لطفاً عنوان شغلی را وارد کنید.',
-                'modal.errorFailed': 'تولید محتوا ناموفق بود. لطفاً دوباره تلاش کنید.'
+                'modal.errorGeneric': 'تولید محتوا ناموفق بود. لطفاً دوباره تلاش کنید.'
             }
         };
 
-        const customSummaries = { en: null, fa: null };
-        let activeErrorKey = null;
-        let currentLanguage = localStorage.getItem('resumeLanguage') === 'fa' ? 'fa' : 'en';
+        const applyElementTranslations = (lang) => {
+            const dict = translations[lang];
+            if (!dict) return;
 
-        const applyTranslations = (language, { animate = false } = {}) => {
             document.querySelectorAll('[data-i18n]').forEach((el) => {
-                const key = el.dataset.i18n;
-                if (!key) return;
-                if (key === 'summary.text') {
-                    return;
-                }
-                const translation = translations[language][key];
-                if (translation === undefined) {
-                    return;
-                }
-                if (el.dataset.i18nAttr) {
-                    el.setAttribute(el.dataset.i18nAttr, translation);
-                } else if (el.dataset.i18nHtml === 'true') {
-                    el.innerHTML = translation;
-                } else {
-                    el.textContent = translation;
+                const key = el.getAttribute('data-i18n');
+                if (dict[key] !== undefined) {
+                    el.innerHTML = dict[key];
                 }
             });
 
-            const summaryText = customSummaries[language] ?? translations[language]['summary.text'];
-            summaryElement.textContent = summaryText;
+            document.querySelectorAll('[data-i18n-placeholder]').forEach((el) => {
+                const key = el.getAttribute('data-i18n-placeholder');
+                if (dict[key] !== undefined) {
+                    el.setAttribute('placeholder', dict[key]);
+                }
+            });
 
-            if (activeErrorKey) {
-                errorMessageEl.textContent = translations[language][activeErrorKey];
-            }
-
-            document.title = translations[language]['page.title'];
-            document.documentElement.setAttribute('lang', language === 'fa' ? 'fa' : 'en');
-            const isPersian = language === 'fa';
-            document.documentElement.setAttribute('dir', isPersian ? 'rtl' : 'ltr');
-            document.body.setAttribute('dir', isPersian ? 'rtl' : 'ltr');
-            document.body.dataset.language = language;
-
-            if (animate) {
-                triggerLanguageAnimation(language);
-            }
+            document.querySelectorAll('[data-i18n-aria-label]').forEach((el) => {
+                const key = el.getAttribute('data-i18n-aria-label');
+                if (dict[key] !== undefined) {
+                    el.setAttribute('aria-label', dict[key]);
+                }
+            });
         };
 
-        const updateLanguageToggleLabel = () => {
-            languageToggleBtn.textContent = currentLanguage === 'en' ? 'فارسی' : 'English';
-        };
-
-        applyTranslations(currentLanguage);
-        updateLanguageToggleLabel();
-
-        languageToggleBtn.addEventListener('click', () => {
-            currentLanguage = currentLanguage === 'en' ? 'fa' : 'en';
-            localStorage.setItem('resumeLanguage', currentLanguage);
-            applyTranslations(currentLanguage, { animate: true });
-            updateLanguageToggleLabel();
-        });
-
-        // --- Configuration ---
-        const LIVE_RESUME_URL = "https://ali-ghanbari-resume.vercel.app/";
-        document.getElementById('ai-summary-link').href = `${LIVE_RESUME_URL}?tailor=true`;
-
-        // --- Modal & Reset Logic ---
+        const resumeContainer = document.getElementById('resume-container');
+        const languageToggleBtn = document.getElementById('language-toggle');
+        const summaryElement = document.getElementById('summary-text');
+        const aiButtonsContainer = document.getElementById('ai-buttons-container');
+        const resetBtn = document.getElementById('reset-btn');
         const aiModalBackdrop = document.getElementById('ai-modal-backdrop');
         const aiModal = document.getElementById('ai-modal');
         const aiSummaryBtn = document.getElementById('ai-summary-btn');
         const closeModalBtn = document.getElementById('close-modal-btn');
-        const resetBtn = document.getElementById('reset-btn');
-        const aiButtonsContainer = document.getElementById('ai-buttons-container');
+        const generateBtn = document.getElementById('generate-btn');
+        const generateBtnText = document.getElementById('generate-btn-text');
+        const loadingSpinner = document.getElementById('loading-spinner');
+        const jobTitleInput = document.getElementById('job-title-input');
+        const errorMessage = document.getElementById('error-message');
+        let lastErrorKey = null;
+
+        const LIVE_RESUME_URL = 'https://ali-ghanbari-resume.vercel.app/';
+        document.getElementById('ai-summary-link').href = `${LIVE_RESUME_URL}?tailor=true`;
+
+        let currentLanguage = localStorage.getItem('resumeLanguage') || 'en';
+        const tailoredState = { en: null, fa: null };
+
+        const showAllItems = () => {
+            document.querySelectorAll('#experience-section li[data-id], #skills-section li[data-id], #additional-info-section li[data-id]').forEach((li) => {
+                li.classList.remove('hidden');
+            });
+        };
+
+        const applyTailoredContent = (content) => {
+            if (!content) return;
+            summaryElement.textContent = content.summary;
+            showAllItems();
+
+            if (Array.isArray(content.relevant_experience_ids) && content.relevant_experience_ids.length > 0) {
+                const ids = new Set(content.relevant_experience_ids);
+                document.querySelectorAll('#experience-section li[data-id]').forEach((li) => {
+                    li.classList.toggle('hidden', !ids.has(li.dataset.id));
+                });
+            }
+
+            if (Array.isArray(content.relevant_skill_ids) && content.relevant_skill_ids.length > 0) {
+                const ids = new Set(content.relevant_skill_ids);
+                document.querySelectorAll('#skills-section li[data-id], #additional-info-section li[data-id]').forEach((li) => {
+                    li.classList.toggle('hidden', !ids.has(li.dataset.id));
+                });
+            }
+        };
+
+        const updateTailorUiState = () => {
+            if (tailoredState[currentLanguage]) {
+                resetBtn.classList.remove('hidden');
+                aiButtonsContainer.classList.add('hidden');
+            } else {
+                resetBtn.classList.add('hidden');
+                aiButtonsContainer.classList.remove('hidden');
+            }
+        };
+
+        const applyLanguage = (lang, { skipAnimation = false } = {}) => {
+            currentLanguage = lang;
+            localStorage.setItem('resumeLanguage', lang);
+
+            const dir = lang === 'fa' ? 'rtl' : 'ltr';
+            htmlEl.setAttribute('lang', lang === 'fa' ? 'fa' : 'en');
+            htmlEl.setAttribute('dir', dir);
+            htmlEl.dataset.lang = lang;
+            document.body.setAttribute('dir', dir);
+
+            applyElementTranslations(lang);
+            if (lastErrorKey && translations[lang][lastErrorKey]) {
+                errorMessage.textContent = translations[lang][lastErrorKey];
+            } else if (!lastErrorKey) {
+                errorMessage.textContent = '';
+            }
+            showAllItems();
+
+            const tailoredContent = tailoredState[lang];
+            if (tailoredContent) {
+                applyTailoredContent(tailoredContent);
+            }
+
+            updateTailorUiState();
+
+            if (!skipAnimation) {
+                resumeContainer.classList.remove('language-animate-rtl', 'language-animate-ltr');
+                void resumeContainer.offsetWidth;
+                resumeContainer.classList.add(lang === 'fa' ? 'language-animate-rtl' : 'language-animate-ltr');
+            }
+        };
+
+        languageToggleBtn.addEventListener('click', () => {
+            const nextLang = currentLanguage === 'en' ? 'fa' : 'en';
+            resumeContainer.classList.remove('language-animate-rtl', 'language-animate-ltr');
+            void resumeContainer.offsetWidth;
+            resumeContainer.classList.add(nextLang === 'fa' ? 'language-animate-rtl' : 'language-animate-ltr');
+            applyLanguage(nextLang, { skipAnimation: true });
+        });
 
         const openModal = () => {
             aiModalBackdrop.classList.remove('hidden');
@@ -819,8 +911,8 @@
             setTimeout(() => {
                 aiModalBackdrop.classList.add('hidden');
                 aiModal.classList.add('hidden');
-                activeErrorKey = null;
-                errorMessageEl.textContent = '';
+                errorMessage.textContent = '';
+                lastErrorKey = null;
             }, 300);
         };
 
@@ -829,37 +921,26 @@
         aiModalBackdrop.addEventListener('click', closeModal);
 
         const resetResume = () => {
-            document.querySelectorAll('#experience-section ul li, #skills-section ul li').forEach(li => li.classList.remove('hidden'));
-            customSummaries.en = null;
-            customSummaries.fa = null;
-            activeErrorKey = null;
-            errorMessageEl.textContent = '';
-            resetBtn.classList.add('hidden');
-            aiButtonsContainer.classList.remove('hidden');
-            applyTranslations(currentLanguage);
+            tailoredState[currentLanguage] = null;
+            lastErrorKey = null;
+            applyLanguage(currentLanguage, { skipAnimation: true });
         };
-        resetBtn.addEventListener('click', resetResume);
 
-        // --- Gemini API Logic ---
-        const generateBtn = document.getElementById('generate-btn');
-        const jobTitleInput = document.getElementById('job-title-input');
+        resetBtn.addEventListener('click', resetResume);
 
         const tailorResume = async () => {
             const jobTitle = jobTitleInput.value.trim();
             if (!jobTitle) {
-                activeErrorKey = 'modal.errorRequired';
-                errorMessageEl.textContent = translations[currentLanguage][activeErrorKey];
+                lastErrorKey = 'modal.errorRequired';
+                errorMessage.textContent = translations[currentLanguage][lastErrorKey];
                 return;
             }
-
-            const generateBtnText = document.getElementById('generate-btn-text');
-            const loadingSpinner = document.getElementById('loading-spinner');
 
             generateBtnText.classList.add('hidden');
             loadingSpinner.classList.remove('hidden');
             generateBtn.disabled = true;
-            activeErrorKey = null;
-            errorMessageEl.textContent = '';
+            errorMessage.textContent = '';
+            lastErrorKey = null;
 
             try {
                 const response = await fetch('/api/tailor', {
@@ -871,41 +952,21 @@
                 });
 
                 if (!response.ok) {
-                    const errorData = await response.json();
+                    const errorData = await response.json().catch(() => ({}));
                     throw new Error(errorData.message || 'An unknown error occurred.');
                 }
 
                 const tailoredContent = await response.json();
 
-                customSummaries[currentLanguage] = tailoredContent.summary;
-                summaryElement.textContent = tailoredContent.summary;
-
-                const allExpItems = document.querySelectorAll('#experience-section ul li');
-                allExpItems.forEach(li => li.classList.add('hidden'));
-                if (tailoredContent.relevant_experience_ids && tailoredContent.relevant_experience_ids.length > 0) {
-                    tailoredContent.relevant_experience_ids.forEach(id => {
-                        const el = document.querySelector(`li[data-id="${id}"]`);
-                        if (el) el.classList.remove('hidden');
-                    });
-                }
-
-                const allSkillItems = document.querySelectorAll('#skills-section ul li');
-                allSkillItems.forEach(li => li.classList.add('hidden'));
-                if (tailoredContent.relevant_skill_ids && tailoredContent.relevant_skill_ids.length > 0) {
-                    tailoredContent.relevant_skill_ids.forEach(id => {
-                        const el = document.querySelector(`li[data-id="${id}"]`);
-                        if (el) el.classList.remove('hidden');
-                    });
-                }
-
-                resetBtn.classList.remove('hidden');
-                aiButtonsContainer.classList.add('hidden');
+                tailoredState[currentLanguage] = tailoredContent;
+                applyTailoredContent(tailoredContent);
+                updateTailorUiState();
                 closeModal();
 
             } catch (error) {
-                activeErrorKey = 'modal.errorFailed';
-                errorMessageEl.textContent = translations[currentLanguage][activeErrorKey];
                 console.error('Full error:', error);
+                lastErrorKey = 'modal.errorGeneric';
+                errorMessage.textContent = translations[currentLanguage][lastErrorKey];
             } finally {
                 generateBtnText.classList.remove('hidden');
                 loadingSpinner.classList.add('hidden');
@@ -919,6 +980,8 @@
                 tailorResume();
             }
         });
+
+        applyLanguage(currentLanguage, { skipAnimation: true });
 
         window.addEventListener('load', () => {
             const urlParams = new URLSearchParams(window.location.search);
