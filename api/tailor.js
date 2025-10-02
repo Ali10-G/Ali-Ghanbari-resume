@@ -38,31 +38,24 @@ async function callGeminiApi(prompt) {
   const apiUrl = `https://generativelanguage.googleapis.com/v1beta/models/gemini-2.5-flash-preview-05-20:generateContent?key=${apiKey}`;
 
   const payload = {
-      contents: [{ role: "user", parts: [{ text: prompt }] }],
-      generationConfig: {
-        responseMimeType: "application/json",
-        responseSchema: {
-              type: "OBJECT",
-              properties: {
-                  summary: { type: "STRING" },
-                  relevant_experience_ids: {
-                      type: "ARRAY",
-                      items: { type: "STRING" }
-                  },
-                  relevant_skill_ids: {
-                      type: "ARRAY",
-                      items: { type: "STRING" }
-                  }
-              }
-          }
+    contents: [{ role: "user", parts: [{ text: prompt }] }],
+    generationConfig: {
+      responseMimeType: "application/json",
+      responseSchema: {
+        type: "OBJECT",
+        properties: {
+          summary: { type: "STRING" },
+          relevant_experience_ids: { type: "ARRAY", items: { type: "STRING" } },
+          relevant_skill_ids: { type: "ARRAY", items: { type: "STRING" } }
+        }
       }
+    }
   };
 
-  // Using a simple fetch for Vercel environment, no need for retries logic here as it's a serverless function.
   const response = await fetch(apiUrl, {
-      method: 'POST',
-      headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify(payload)
+    method: "POST",
+    headers: { "Content-Type": "application/json" },
+    body: JSON.stringify(payload)
   });
 
   if (!response.ok) {
@@ -72,61 +65,61 @@ async function callGeminiApi(prompt) {
   }
 
   const result = await response.json();
-
   if (result.candidates?.[0]?.content?.parts?.[0]?.text) {
-      return JSON.parse(result.candidates[0].content.parts[0].text);
+    return JSON.parse(result.candidates[0].content.parts[0].text);
   } else {
-      console.error("Unexpected API response:", result);
-      throw new Error("Invalid response structure from API.");
+    console.error("Unexpected API response:", result);
+    throw new Error("Invalid response structure from API.");
   }
 }
 
-
 export default async function handler(request, response) {
-  if (request.method !== 'POST') {
-    return response.status(405).json({ message: 'Method Not Allowed' });
+  if (request.method !== "POST") {
+    return response.status(405).json({ message: "Method Not Allowed" });
   }
 
   try {
-    const { jobTitle, language: requestedLanguage } = request.body;
+    const { jobTitle, language } = request.body;
     if (!jobTitle) {
       return response.status(400).json({ message: "jobTitle is required" });
     }
 
-    const language = requestedLanguage === 'fa' ? 'fa' : 'en';
-    const languageInstruction = language === 'fa'
-      ? 'Respond in Persian (Farsi). Translate all narrative content into fluent, professional Persian while keeping proper nouns (company, product, tool names) in their original form.'
-      : 'Respond in English. Keep proper nouns unchanged.';
+    const lang = language === "fa" ? "fa" : "en";
+    const languageInstruction =
+      lang === "fa"
+        ? "Respond entirely in Persian (Farsi) with fluent, natural phrasing. Keep all experience and skill IDs exactly as provided. Keep proper nouns (company, product, tool names) in their original form."
+        : "Respond entirely in English while keeping all experience and skill IDs exactly as provided.";
 
     const prompt = `
-        Analyze the following resume content and tailor it for the job title: "${jobTitle}".
+Analyze the following resume content and tailor it for the job title: "${jobTitle}".
 
-        ${languageInstruction}
+${languageInstruction}
 
-        **Tone of Voice Instructions:** The user's core values are teamwork and authenticity. The generated text must reflect this. Use a humble yet confident, action-oriented, and team-focused tone ("we" for team achievements). Avoid buzzwords, exaggeration, or language that sounds like a "lone star". The summary should be grounded in the provided facts.
+**Tone of Voice Instructions:** The user's core values are teamwork and authenticity. The generated text must reflect this. Use a humble yet confident, action-oriented, and team-focused tone ("we" for team achievements). Avoid buzzwords, exaggeration, or language that sounds like a "lone star". The summary should be grounded in the provided facts.
 
-        1.  **Rewrite the Summary:** Create a professional summary (3-4 sentences) that highlights the most relevant aspects for this specific role, while adhering to the specified tone.
-               - please note that you should look at everything that is in the resume, use all of the information which the resume suggest!(including Nasiba exprience and New-Samaneh magazine)
-               - everytime you want to rewrite the summary, tell a bit about the abillity of the owner of the CV to Use generative AI and the fast learning power that he have.
-        2.  **Select Relevant Experiences:** From a list of experiences below, identify the IDs of the bullet points that are most relevant to the job title. Return only the IDs.
-        3.  **Select Relevant Skills:** From a list of skills below, identify the IDs of the skills that are most relevant. Return only the IDs.
+1. **Rewrite the Summary:** Create a professional summary (3-4 sentences) that highlights the most relevant aspects for this specific role, while adhering to the specified tone.
+   - Please look at all resume information (including Nasiba experience and New-Samaneh magazine).
+   - Mention the candidate's ability to use generative AI and their fast learning ability.
+2. **Select Relevant Experiences:** From the list below, return ONLY the IDs of the most relevant bullet points.
+3. **Select Relevant Skills:** From the list below, return ONLY the IDs of the most relevant skills.
 
-        **Experiences:**
-        ${experienceForPrompt}
+**Experiences:**
+${experienceForPrompt}
 
-        **Skills:**
-        ${skillsForPrompt}
+**Skills:**
+${skillsForPrompt}
 
-        The "summary" field must be written entirely in ${language === 'fa' ? 'Persian (Farsi)' : 'English'} and follow the tone instructions above. Do not translate or modify the experience or skill IDs; return them exactly as provided.
+The "summary" field must be written entirely in ${lang === "fa" ? "Persian (Farsi)" : "English"} and follow the tone instructions above. Do not translate or modify the experience or skill IDs; return them exactly as provided.
 
-        Return a JSON object with three keys: "summary", "relevant_experience_ids", and "relevant_skill_ids".
-    `;
+Return a JSON object with three keys: "summary", "relevant_experience_ids", and "relevant_skill_ids".
+`;
 
     const tailoredContent = await callGeminiApi(prompt);
-    response.status(200).json(tailoredContent);
-
+    return response.status(200).json(tailoredContent);
   } catch (error) {
     console.error("Error in /api/tailor:", error);
-    response.status(500).json({ message: "Failed to generate content.", error: error.message });
+    return response
+      .status(500)
+      .json({ message: "Failed to generate content.", error: error.message });
   }
 }
