@@ -549,8 +549,18 @@
     const jobTitleInput = document.getElementById('job-title-input');
     const errorMessage = document.getElementById('error-message');
 
-    const LIVE_RESUME_URL = 'https://ali-ghanbari-resume.vercel.app/';
-    const linkEl = document.getElementById('ai-summary-link'); if(linkEl){ linkEl.href = `${LIVE_RESUME_URL}?tailor=true`; }
+    const LIVE_RESUME_ORIGIN = 'https://ali-ghanbari-resume.vercel.app';
+    const isLocalLikeHost = (() => {
+      const { protocol, hostname } = window.location;
+      if(protocol === 'file:'){ return true; }
+      if(!hostname){ return true; }
+      if(hostname === 'localhost'){ return true; }
+      if(/^\d+\.\d+\.\d+\.\d+$/.test(hostname)){ return true; }
+      return false;
+    })();
+    const API_BASE_URL = isLocalLikeHost ? LIVE_RESUME_ORIGIN : '';
+    const linkEl = document.getElementById('ai-summary-link');
+    if(linkEl){ linkEl.href = `${LIVE_RESUME_ORIGIN}/?tailor=true`; }
 
     let currentLanguage = localStorage.getItem('resumeLanguage') || 'en';
     const tailoredState = { en:null, fa:null };
@@ -617,13 +627,15 @@
       }
     };
 
-    languageToggleBtn.addEventListener('click', ()=>{
-      const nextLang = currentLanguage === 'en' ? 'fa' : 'en';
-      resumeContainer.classList.remove('language-animate-rtl','language-animate-ltr');
-      void resumeContainer.offsetWidth;
-      resumeContainer.classList.add(nextLang === 'fa' ? 'language-animate-rtl' : 'language-animate-ltr');
-      applyLanguage(nextLang, {skipAnimation:true});
-    });
+    if(languageToggleBtn){
+      languageToggleBtn.addEventListener('click', ()=>{
+        const nextLang = currentLanguage === 'en' ? 'fa' : 'en';
+        resumeContainer.classList.remove('language-animate-rtl','language-animate-ltr');
+        void resumeContainer.offsetWidth;
+        resumeContainer.classList.add(nextLang === 'fa' ? 'language-animate-rtl' : 'language-animate-ltr');
+        applyLanguage(nextLang, {skipAnimation:true});
+      });
+    }
 
     /* Modal open/close */
     const openModal = () => {
@@ -664,7 +676,7 @@
       lastErrorKey = null;
 
       try{
-        const res = await fetch('/api/tailor',{
+        const res = await fetch(`${API_BASE_URL}/api/tailor`,{
           method:'POST',
           headers:{'Content-Type':'application/json'},
           body:JSON.stringify({ jobTitle, language: currentLanguage })
