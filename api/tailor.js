@@ -102,26 +102,6 @@ async function callGeminiApi(prompt) {
 
   throw lastErr || new Error("Failed to call Gemini.");
 }
-
-  const response = await fetch(apiUrl, {
-    method: "POST",
-    headers: { "Content-Type": "application/json" },
-    body: JSON.stringify(payload)
-  });
-
-  if (!response.ok) {
-    const errorBody = await response.text();
-    console.error("API Error Response:", errorBody);
-    throw new Error(`HTTP error! status: ${response.status}`);
-  }
-
-  const result = await response.json();
-  if (result.candidates?.[0]?.content?.parts?.[0]?.text) {
-    return JSON.parse(result.candidates[0].content.parts[0].text);
-  } else {
-    console.error("Unexpected API response:", result);
-    throw new Error("Invalid response structure from API.");
-  }
 }
 
 export default async function handler(request, response) {
