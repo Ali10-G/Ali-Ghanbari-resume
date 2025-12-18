@@ -30,12 +30,18 @@ const skillsForPrompt = `
 [id: skill-tech-5] Microsoft Office, Canva
 `;
 
+const sleep = (ms) => new Promise((r) => setTimeout(r, ms));
+
 async function callGeminiApi(prompt) {
   const apiKey = process.env.GEMINI_API_KEY;
   if (!apiKey) {
-    throw new Error("API Key not available. Ensure it's set in Vercel Environment Variables.");
+    const e = new Error("API Key not available. Ensure it's set in Vercel Environment Variables.");
+    e.status = 500;
+    throw e;
   }
-  const apiUrl = `https://generativelanguage.googleapis.com/v1beta/models/gemini-2.5-flash:generateContent?key=${apiKey}`;
+
+  // اگر خواستی فقط همون 2.5-flash باشه، این آرایه رو تک‌عضوی نگه دار.
+  const models = ["gemini-2.5-flash", "gemini-2.0-flash", "gemini-1.5-flash"];
 
   const payload = {
     contents: [{ role: "user", parts: [{ text: prompt }] }],
@@ -51,6 +57,51 @@ async function callGeminiApi(prompt) {
       }
     }
   };
+
+  let lastErr = null;
+
+  for (const model of models) {
+    const apiUrl = `https://generativelanguage.googleapis.com/v1beta/models/${model}:generateContent?key=${apiKey}`;
+
+    // 4 تلاش با backoff (برای 503/429)
+    for (let attempt = 0; attempt < 4; attempt++) {
+      const response = await fetch(apiUrl, {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify(payload),
+      });
+
+      if (response.ok) {
+        const result = await response.json();
+        const text = result?.candidates?.[0]?.content?.parts?.[0]?.text;
+        if (!text) throw new Error("Invalid response structure from API.");
+        return JSON.parse(text);
+      }
+
+      const errorBody = await response.text();
+      console.error("API Error Response:", errorBody);
+
+      const err = new Error(`Gemini ${response.status} (${model}): ${errorBody}`);
+      err.status = response.status;
+      lastErr = err;
+
+      // فقط روی overload / rate limit ریتری کن
+      if (response.status === 503 || response.status === 429) {
+        const retryAfter = response.headers.get("retry-after"); // ثانیه
+        const base = 500 * Math.pow(2, attempt); // 500, 1000, 2000, 4000
+        const jitter = Math.floor(Math.random() * 250);
+        const delay = retryAfter ? Number(retryAfter) * 1000 : base + jitter;
+        await sleep(delay);
+        continue;
+      }
+
+      // بقیه خطاها (مثلاً 400/401/403/404) ریتری نداره
+      break;
+    }
+  }
+
+  throw lastErr || new Error("Failed to call Gemini.");
+}
 
   const response = await fetch(apiUrl, {
     method: "POST",
@@ -79,7 +130,7 @@ export default async function handler(request, response) {
   }
 
   try {
-    const { jobTitle, language } = request.body;
+    const { jobTitle, language } = request.body || {};
     if (!jobTitle) {
       return response.status(400).json({ message: "jobTitle is required" });
     }
@@ -116,10 +167,17 @@ Return a JSON object with three keys: "summary", "relevant_experience_ids", and 
 
     const tailoredContent = await callGeminiApi(prompt);
     return response.status(200).json(tailoredContent);
-  } catch (error) {
-    console.error("Error in /api/tailor:", error);
-    return response
-      .status(500)
-      .json({ message: "Failed to generate content.", error: error.message });
-  }
+ } catch (error) {
+  console.error("Error in /api/tailor:", error);
+
+  const status = error?.status === 503 || error?.status === 429 ? 503 : 500;
+
+  return response.status(status).json({
+    message:
+      status === 503
+        ? "AI is busy right now. Please try again in a few seconds."
+        : "Failed to generate content.",
+    error: error?.message,
+  });
+}
 }
