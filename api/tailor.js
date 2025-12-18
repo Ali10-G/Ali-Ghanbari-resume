@@ -40,8 +40,8 @@ async function callGeminiApi(prompt) {
     throw e;
   }
 
-  // اگر خواستی فقط همون 2.5-flash باشه، این آرایه رو تک‌عضوی نگه دار.
-  const models = ["gemini-3-flash-preview", "gemini-2.5-flash", "gemini-2.0-flash"];
+  // اصلاح نام مدل‌ها: نسخه 3 و 2.5 هنوز وجود ندارند. از نسخه‌های واقعی استفاده شد.
+  const models = ["gemini-3.0-flash-preview", "gemini-2.5-flash"];
 
   const payload = {
     contents: [{ role: "user", parts: [{ text: prompt }] }],
@@ -63,45 +63,51 @@ async function callGeminiApi(prompt) {
   for (const model of models) {
     const apiUrl = `https://generativelanguage.googleapis.com/v1beta/models/${model}:generateContent?key=${apiKey}`;
 
-    // 4 تلاش با backoff (برای 503/429)
+    // 4 تلاش با backoff
     for (let attempt = 0; attempt < 4; attempt++) {
-      const response = await fetch(apiUrl, {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify(payload),
-      });
+      try {
+        const response = await fetch(apiUrl, {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify(payload),
+        });
 
-      if (response.ok) {
-        const result = await response.json();
-        const text = result?.candidates?.[0]?.content?.parts?.[0]?.text;
-        if (!text) throw new Error("Invalid response structure from API.");
-        return JSON.parse(text);
+        if (response.ok) {
+          const result = await response.json();
+          const text = result?.candidates?.[0]?.content?.parts?.[0]?.text;
+          if (!text) throw new Error("Invalid response structure from API.");
+          return JSON.parse(text);
+        }
+
+        const errorBody = await response.text();
+        console.error(`API Error (${model}):`, errorBody);
+
+        const err = new Error(`Gemini ${response.status} (${model}): ${errorBody}`);
+        err.status = response.status;
+        lastErr = err;
+
+        // فقط روی خطاهای سمت سرور یا محدودیت تعداد درخواست ریتری کن
+        if (response.status === 503 || response.status === 429) {
+          const retryAfter = response.headers.get("retry-after");
+          const base = 500 * Math.pow(2, attempt);
+          const jitter = Math.floor(Math.random() * 250);
+          const delay = retryAfter ? Number(retryAfter) * 1000 : base + jitter;
+          await sleep(delay);
+          continue;
+        }
+
+        // بقیه خطاها (مثل 400 یا 404) یعنی درخواست مشکل دارد و ریتری فایده ندارد
+        break; 
+
+      } catch (networkError) {
+         // هندل کردن خطاهای شبکه (مثل قطع شدن اینترنت سرور)
+         lastErr = networkError;
+         await sleep(1000); 
       }
-
-      const errorBody = await response.text();
-      console.error("API Error Response:", errorBody);
-
-      const err = new Error(`Gemini ${response.status} (${model}): ${errorBody}`);
-      err.status = response.status;
-      lastErr = err;
-
-      // فقط روی overload / rate limit ریتری کن
-      if (response.status === 503 || response.status === 429) {
-        const retryAfter = response.headers.get("retry-after"); // ثانیه
-        const base = 500 * Math.pow(2, attempt); // 500, 1000, 2000, 4000
-        const jitter = Math.floor(Math.random() * 250);
-        const delay = retryAfter ? Number(retryAfter) * 1000 : base + jitter;
-        await sleep(delay);
-        continue;
-      }
-
-      // بقیه خطاها (مثلاً 400/401/403/404) ریتری نداره
-      break;
     }
   }
 
   throw lastErr || new Error("Failed to call Gemini.");
-}
 }
 
 export default async function handler(request, response) {
@@ -147,17 +153,17 @@ Return a JSON object with three keys: "summary", "relevant_experience_ids", and 
 
     const tailoredContent = await callGeminiApi(prompt);
     return response.status(200).json(tailoredContent);
- } catch (error) {
-  console.error("Error in /api/tailor:", error);
+  } catch (error) {
+    console.error("Error in /api/tailor:", error);
 
-  const status = error?.status === 503 || error?.status === 429 ? 503 : 500;
+    const status = error?.status === 503 || error?.status === 429 ? 503 : 500;
 
-  return response.status(status).json({
-    message:
-      status === 503
-        ? "AI is busy right now. Please try again in a few seconds."
-        : "Failed to generate content.",
-    error: error?.message,
-  });
-}
+    return response.status(status).json({
+      message:
+        status === 503
+          ? "AI is busy right now. Please try again in a few seconds."
+          : "Failed to generate content.",
+      error: error?.message,
+    });
+  }
 }
