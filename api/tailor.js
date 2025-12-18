@@ -41,7 +41,7 @@ async function callGeminiApi(prompt) {
   }
 
   // اگر خواستی فقط همون 2.5-flash باشه، این آرایه رو تک‌عضوی نگه دار.
-  const models = ["gemini-2.5-flash", "gemini-2.0-flash", "gemini-1.5-flash"];
+  const models = ["gemini-3-flash-preview", "gemini-2.5-flash", "gemini-2.0-flash"];
 
   const payload = {
     contents: [{ role: "user", parts: [{ text: prompt }] }],
