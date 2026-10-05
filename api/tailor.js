@@ -40,8 +40,8 @@ async function callGeminiApi(prompt) {
     throw e;
   }
 
-  // اصلاح نام مدل‌ها: نسخه 3 و 2.5 هنوز وجود ندارند. از نسخه‌های واقعی استفاده شد.
-  const models = ["gemini-3.5-flash-preview", "gemini-3.0-flash-preview"];
+  // Updated model names to valid Gemini Flash versions (2.5 and 2.0)
+  const models = ["gemini-2.5-flash", "gemini-2.0-flash"];
 
   const payload = {
     contents: [{ role: "user", parts: [{ text: prompt }] }],
